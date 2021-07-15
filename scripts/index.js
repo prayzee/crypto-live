@@ -1,5 +1,5 @@
 const API_URL = 'https://crypto-backend-app.herokuapp.com/api/';
-const socket = new WebSocket('ws://crypto-backend-app.herokuapp.com/api/');
+const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/');
 
 const main = document.getElementById('main');
 const spinner = document.getElementById('spinner');
