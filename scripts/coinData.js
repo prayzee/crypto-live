@@ -24,6 +24,8 @@ chartViewCheckbox.checked = true;
 //     "q": "18"               // Total traded quote asset volume
 //   } ...]
 function updateLiveCoinData(message) {
+    document.title = adjustSigFig(message[coin]['s']);
+
     for (coin in message) {
         // Note coin data will only appear if its data has changed
         if (message[coin]['s'] === selectedCoin) {
@@ -40,7 +42,7 @@ function updateLiveCoinData(message) {
             } else if(price == null) {
                 price.innerHTML = message[coin]['c'];
             }
-            
+
             const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
             extractedFullDayData = {
                 "24hr Low": adjustSigFig(message[coin]['h']),
