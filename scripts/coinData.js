@@ -69,6 +69,7 @@ coinForm.addEventListener('change', (event) => {
     displayTradingViewChart();
 });
 
+// Coins for which data is available
 function displaySupportedCoins(coins) {
     coins.sort();
 
@@ -109,10 +110,14 @@ function updateRSI() {
     }, 30000);
 }
 
+// Displays 24hr low, 24hr high, low and change in top banner
+// @param binanceData   {
+//                          "key1": "value1",
+//                          "key2": "value2"
+//                      }
 function displayFullDayData(binanceData) {
     const fullDayData = document.getElementById('fullDayData');
     fullDayData.innerText = '';
-    // Attach 24hr data into a table
     for (var i in binanceData) {
         var dataElement = document.createElement('h9');
         dataElement.innerHTML = `${i}<br>${binanceData[i]}`;
@@ -134,6 +139,7 @@ function displayFullDayData(binanceData) {
     }
 }
 
+// Update chart view type upon chart mode change
 chartViewCheckbox.addEventListener('input', (event) => {
     if(chartViewCheckbox.checked) {
         chartType = 'advanced';
