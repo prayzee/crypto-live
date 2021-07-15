@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradr</title>
+
+    <script type="module" src="node_modules/spin.js/spin.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <link rel="stylesheet" href="styles/spinner.css">
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/chartButton.css">
+</head>
+
+<body>
+    <!-- After functionality loaded - set to hidden -->
+    <div id="spinner">
+        <div class="scaling-squares-spinner" :style="spinnerStyle">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+          </div>
+    </div>
+    <div id="main">
+
+        <div class="bannerWrapper">
+            <select class="coin-selection" id="coinSelection"> </select>
+            <h1 class="livePrice" id="livePrice"> </h1>
+            <div class="fullDayData" id="fullDayData"> </div>
+
+            <!-- Rounded switch -->
+            <div class="chartTypeWrapper">
+                <label class="chartViewButtonLabel"> Chart Mode </label>
+                <label class="switch" id="chartViewType">
+                    <input type="checkbox" id="chartTypeSelection">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="clock" id="clock"> </div>
+        </div>
+
+        <div class="mainWrapper">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+                <div id="tradingview_widget_container"></div>
+                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/" rel="noopener"
+                        target="_blank"><span class="blue-text">Charts </span></a> by TradingView</div>
+            </div>
+            <!-- TradingView Widget END -->
+            <div class="chatWrapper">
+                <div class="chat" id="chat"> </div>
+                <input type="text" class="messageToSend" id="messageToSend">
+                <button type="button" id="sendMessageButton"> Send message </button>
+            </div>
+        </div>
+
+        <div class="analysisWrapper">
+            <div class="rsi" id="rsi"> </div>
+        </div>
+
+        <div class="plotRSI" , id="plotRSI"> </div>
+
+        <script src="scripts/index.js"> </script>
+        <script src="scripts/ws.js"> </script>
+        <script src="scripts/coinData.js"> </script>
+        <script src="scripts/messaging.js"> </script>
+    </div>
+</body>
+
+</html>

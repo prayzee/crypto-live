@@ -1,0 +1,75 @@
+body {
+    background-color: #1B2631;
+}
+
+.title {
+    text-align: left;
+    margin: 0 auto;
+}
+
+
+.bannerWrapper {
+    display: flex;
+    background-color: #212F3C;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.coin-selection {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.livePrice {
+    color: #EBEDEF;
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.clock {
+    color: #EBEDEF;
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+}
+
+.fullDayData {
+    display: flex;
+    color: #EBEDEF;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.mainWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.chat {
+    color: #EBEDEF;
+    width: 500px;
+    height: 500px;
+    overflow-y: scroll;
+    word-wrap: break-word;
+}
+
+.chatWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.analysisWrapper {
+    display: flex;
+}
+
+.rsi {
+    color: #EBEDEF;
+}
