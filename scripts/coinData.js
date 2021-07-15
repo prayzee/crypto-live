@@ -24,11 +24,12 @@ chartViewCheckbox.checked = true;
 //     "q": "18"               // Total traded quote asset volume
 //   } ...]
 function updateLiveCoinData(message) {
-    document.title = adjustSigFig(message[coin]['s']);
-
+    
     for (coin in message) {
         // Note coin data will only appear if its data has changed
         if (message[coin]['s'] === selectedCoin) {
+            document.title = adjustSigFig(message[coin]['c']);
+
             var newPrice = adjustSigFig(message[coin]['c']);
             var price = document.getElementById('livePrice');
             var currentPrice = adjustSigFig(price.innerText);
