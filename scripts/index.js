@@ -1,5 +1,6 @@
-const API_URL = 'http://localhost:3000/api/';
-const socket = new WebSocket('ws://localhost:9999/api/');
+const API_URL = 'https://crypto-backend-app.herokuapp.com/api/';
+const socket = new WebSocket('ws://crypto-backend-app.herokuapp.com/api/');
+
 const main = document.getElementById('main');
 const spinner = document.getElementById('spinner');
 
