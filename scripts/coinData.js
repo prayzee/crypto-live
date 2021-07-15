@@ -37,10 +37,10 @@ function updateLiveCoinData(message) {
             } else if (price.innerText.length != 0 && currentPrice > newPrice) {
                 price.innerText = newPrice;
                 price.style.color = '#d00'; // red
-            } else {
+            } else if(price == null) {
                 price.innerHTML = message[coin]['c'];
             }
-            // TODO:: Remove last else statement to remove unnecessary padded 0's
+            
             const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
             extractedFullDayData = {
                 "24hr Low": adjustSigFig(message[coin]['h']),
