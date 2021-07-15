@@ -28,7 +28,7 @@ function updateLiveCoinData(message) {
     for (coin in message) {
         // Note coin data will only appear if its data has changed
         if (message[coin]['s'] === selectedCoin) {
-            document.title = adjustSigFig(message[coin]['c']);
+            document.title = `${adjustSigFig(message[coin]['c'])} | ${selectedCoin}`;
 
             var newPrice = adjustSigFig(message[coin]['c']);
             var price = document.getElementById('livePrice');
