@@ -1,0 +1,10 @@
+table {
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+td, th {
+    text-align: center;
+    font-size: large;
+}

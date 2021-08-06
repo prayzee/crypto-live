@@ -6,6 +6,9 @@ var chartType = 'advanced';
 const chartViewCheckbox = document.getElementById('chartTypeSelection');
 chartViewCheckbox.checked = true;
 
+const cryptoTable = document.getElementById('cryptoTable');
+const CRYPTO_TABLE_SIZE = 4;
+
 // Update live price of selected coin through socket
 // @ param message
 // 24hr rolling window mini-ticker statistics for all symbols that changed in an array.
@@ -151,6 +154,36 @@ chartViewCheckbox.addEventListener('input', (event) => {
     }
     displayTradingViewChart();
 });
+
+
+function updateCryptoTable(message) {
+    // Coin data will only appear if its data has changed
+    for (coin in message) {
+        var ticker = document.createElement('td');
+        ticker.innerText = message[coin]['s'];
+        
+        var price = document.createElement('td');
+        price.innerText = message[coin]['c'];
+
+        // if symbol already exists, update prices otherwise add new row
+        const a = 'table-coin-' + message[coin]['s'].toLowerCase();
+        const tickerTr = document.getElementById(a);
+        if(tickerTr) {
+            while(tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
+                tickerTr.removeChild(tickerTr.lastChild);
+            }
+            tickerTr.appendChild(price);
+        } else {
+            const tr = document.createElement('tr');
+            tr.id = 'table-coin-' + message[coin]['s'].toLowerCase();
+
+            tr.appendChild(ticker);
+            tr.appendChild(price);
+
+            cryptoTable.appendChild(tr);
+        }
+    }
+}
 
 
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)

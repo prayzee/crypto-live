@@ -11,6 +11,7 @@ socket.onmessage = function (message) {
             break;
         case 'livePrice':
             updateLiveCoinData(data.message);
+            updateCryptoTable(data.message);
             break;
         default:
             console.log('unknown message type recieved: ' + message);
