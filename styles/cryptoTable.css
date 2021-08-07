@@ -1,10 +1,16 @@
 table {
     color: white;
-    width: 100%;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
 }
 
 td, th {
     text-align: center;
     font-size: large;
+}
+
+tr:hover {
+    background-color: #1C2599;
 }

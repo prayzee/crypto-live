@@ -163,7 +163,23 @@ function updateCryptoTable(message) {
         ticker.innerText = message[coin]['s'];
         
         var price = document.createElement('td');
-        price.innerText = message[coin]['c'];
+        price.innerText = adjustSigFig(message[coin]['c']);
+
+        var low = document.createElement('td');
+        low.innerText = adjustSigFig(message[coin]['l']);
+
+        var high = document.createElement('td');
+        high.innerText = adjustSigFig(message[coin]['h']);
+
+        var changePercentage = document.createElement('td');
+        const changeValue = parseFloat((message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100).toFixed(2);
+        if (parseFloat(changeValue) > 0) {
+            // green
+            changePercentage.innerHTML = `<span style="color: #078f07;">${changeValue}%</span>`;
+        } else {
+            // red
+            changePercentage.innerHTML = `<span style="color: #d00;">${changeValue}%</span>`;
+        }
 
         // if symbol already exists, update prices otherwise add new row
         const a = 'table-coin-' + message[coin]['s'].toLowerCase();
@@ -173,12 +189,18 @@ function updateCryptoTable(message) {
                 tickerTr.removeChild(tickerTr.lastChild);
             }
             tickerTr.appendChild(price);
+            tickerTr.appendChild(low);
+            tickerTr.appendChild(high);
+            tickerTr.appendChild(changePercentage);
         } else {
             const tr = document.createElement('tr');
             tr.id = 'table-coin-' + message[coin]['s'].toLowerCase();
 
             tr.appendChild(ticker);
             tr.appendChild(price);
+            tr.appendChild(low);
+            tr.appendChild(high);
+            tr.appendChild(changePercentage);
 
             cryptoTable.appendChild(tr);
         }
