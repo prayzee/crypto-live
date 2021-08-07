@@ -1,16 +1,23 @@
 table {
-    color: white;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
+    width: 95%;
+}
+
+tr:first-child {
+    position: sticky;
+    top: 0;
+    background-color: #EBEDEF;
 }
 
 td, th {
     text-align: center;
     font-size: large;
+    font-size: medium;
 }
 
 tr:hover {
-    background-color: #1C2599;
+    background-color: #92979E ;
 }

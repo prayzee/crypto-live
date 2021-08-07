@@ -236,12 +236,12 @@ function displayTradingViewChart() {
     } else if(chartType === 'advanced') {
         new TradingView.widget(
             {
-            "width": 980,
-            "height": 600,
+            "width": 1300,
+            "height": 800,
             "symbol": `BINANCE:${selectedCoin}`,
-            "interval": "5",
+            "interval": "1440",
             "timezone": "Australia/Sydney",
-            "theme": "dark",
+            "theme": "light",
             "style": "1",
             "locale": "en",
             "toolbar_bg": "#f1f3f6",

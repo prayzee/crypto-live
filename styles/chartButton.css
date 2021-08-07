@@ -3,10 +3,6 @@
     flex-direction: column;
 }
 
-.chartViewButtonLabel {
-    color: #EBEDEF;
-}
-
 /* The switch - the box around the slider */
 .switch {
     position: relative;

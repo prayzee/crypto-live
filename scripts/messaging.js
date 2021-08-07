@@ -9,7 +9,7 @@ function displayChatMessage(message) {
     const messageTimestamp = new Date(message.time).toLocaleTimeString();
     const p = document.createElement('p');
     p.innerHTML = `<b> ${message.user} [${messageTimestamp}] </b>: ${message.message}`;
-    p.style.cssText = 'background-color: #212F3C; margin: 1.8%';
+    p.style.cssText = 'margin: 1%';
 
     chat.appendChild(p);
     chat.scrollTop = chat.scrollHeight;
