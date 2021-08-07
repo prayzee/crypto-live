@@ -51,4 +51,8 @@ function initaliseCoinData() {
 
 }
 
+window.addEventListener('resize', () => {
+    displayTradingViewChart();
+});
+
 window.onload = initalisePage;
