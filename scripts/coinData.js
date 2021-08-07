@@ -196,6 +196,15 @@ function updateCryptoTable(message) {
             const tr = document.createElement('tr');
             tr.id = 'table-coin-' + message[coin]['s'].toLowerCase();
 
+            // if row is clicked, change main data to coin on that row
+            tr.onclick = function () {
+                selectedCoin = tr.id.split('-')[2].toUpperCase();
+                coinForm.value = selectedCoin;
+                initaliseCoinData();
+                displayTradingViewChart();
+                window.scrollTo({top: 0, behavior: 'smooth' });
+            };
+
             tr.appendChild(ticker);
             tr.appendChild(price);
             tr.appendChild(low);
@@ -219,10 +228,10 @@ function displayTradingViewChart() {
                     ]
                 ],
                 "chartOnly": true,
-                "width": "980",
-                "height": "600",
+                "width": "1300",
+                "height": "800",
                 "locale": "en",
-                "colorTheme": "dark",
+                "colorTheme": "light",
                 "gridLineColor": "rgba(159, 197, 232, 0)",
                 "trendLineColor": "#2962ff",
                 "fontColor": "rgba(255, 255, 255, 1)",
