@@ -245,8 +245,8 @@ function displayTradingViewChart() {
     } else if(chartType === 'advanced') {
         new TradingView.widget(
             {
-            "width": 1300,
-            "height": 800,
+            "width": 0.7 * window.innerWidth,
+            "height": 0.85 * window.innerHeight,
             "symbol": `BINANCE:${selectedCoin}`,
             "interval": "1440",
             "timezone": "Australia/Sydney",

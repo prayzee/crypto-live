@@ -37,12 +37,11 @@
 .mainWrapper {
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
 }
 
 .chat {
-    width: 500px;
-    height: 700px;
+    width: 50vh;
+    height: 75vh;
     overflow-y: scroll;
     word-wrap: break-word;
 }

@@ -15,7 +15,7 @@ const initalisePage = function () {
     setTimeout(function () {
         spinner.style.display = "none";
         main.style.display = "block";
-    }, 1500);
+    }, 2500);
 }
 
 function addSupportedCoins() {
