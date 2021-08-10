@@ -49,8 +49,8 @@ function updateLiveCoinData(message) {
 
             const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
             extractedFullDayData = {
-                "24hr Low": adjustSigFig(message[coin]['h']),
-                "24hr High": adjustSigFig(message[coin]['l']),
+                "24hr High": adjustSigFig(message[coin]['h']),
+                "24hr Low": adjustSigFig(message[coin]['l']),
                 "24hr Change": parseFloat(changePercent).toFixed(2)
             }
             displayFullDayData(extractedFullDayData);
