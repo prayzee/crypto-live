@@ -73,6 +73,7 @@ coinForm.addEventListener('change', (event) => {
     selectedCoin = coinForm.value;
     initaliseCoinData();
     displayTradingViewChart();
+    setCookie('selectedCoin', coinForm.value);
 });
 
 // Coins for which data is available
@@ -195,11 +196,12 @@ function updateCryptoTable(message) {
         } else {
             const tr = document.createElement('tr');
             tr.id = 'table-coin-' + message[coin]['s'].toLowerCase();
-
+            
             // if row is clicked, change main data to coin on that row
             tr.onclick = function () {
                 selectedCoin = tr.id.split('-')[2].toUpperCase();
                 coinForm.value = selectedCoin;
+                setCookie('selectedCoin', coinForm.value);
                 initaliseCoinData();
                 displayTradingViewChart();
                 window.scrollTo({top: 0, behavior: 'smooth' });
