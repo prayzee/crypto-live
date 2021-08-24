@@ -1,3 +1,4 @@
+// main selected coin
 const coinForm = document.getElementById('coinSelection');
 var selectedCoin = "BTCAUD";
 
@@ -6,6 +7,8 @@ var chartType = 'advanced';
 const chartViewCheckbox = document.getElementById('chartTypeSelection');
 chartViewCheckbox.checked = true;
 
+// all coins tabular display
+const allCoins = []
 const cryptoTable = document.getElementById('cryptoTable');
 const CRYPTO_TABLE_SIZE = 4;
 
@@ -27,7 +30,7 @@ const CRYPTO_TABLE_SIZE = 4;
 //     "q": "18"               // Total traded quote asset volume
 //   } ...]
 function updateLiveCoinData(message) {
-    
+
     for (coin in message) {
         // Note coin data will only appear if its data has changed
         if (message[coin]['s'] === selectedCoin) {
@@ -43,7 +46,7 @@ function updateLiveCoinData(message) {
             } else if (price.innerText.length != 0 && currentPrice > newPrice) {
                 price.innerText = newPrice;
                 price.style.color = '#d00'; // red
-            } else if(price == null) {
+            } else if (price == null) {
                 price.innerHTML = message[coin]['c'];
             }
 
@@ -148,7 +151,7 @@ function displayFullDayData(binanceData) {
 
 // Update chart view type upon chart mode change
 chartViewCheckbox.addEventListener('input', (event) => {
-    if(chartViewCheckbox.checked) {
+    if (chartViewCheckbox.checked) {
         chartType = 'advanced';
     } else {
         chartType = 'basic';
@@ -156,47 +159,55 @@ chartViewCheckbox.addEventListener('input', (event) => {
     displayTradingViewChart();
 });
 
+function extractCoinInfoFromWS(coin) {
+    const ticker = coin['s'];
+    const close = coin['c'];
+    const low = coin['l'];
+    const high = coin['h'];
+    const open = coin['o'];
+    return { ticker, close, low, high, open }
+}
 
 function updateCryptoTable(message) {
     // Coin data will only appear if its data has changed
-    for (coin in message) {
-        var ticker = document.createElement('td');
-        ticker.innerText = message[coin]['s'];
-        
-        var price = document.createElement('td');
-        price.innerText = adjustSigFig(message[coin]['c']);
+    for (coin of message) {
+        const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
 
-        var low = document.createElement('td');
-        low.innerText = adjustSigFig(message[coin]['l']);
+        var tickerElement = document.createElement('td');
+        var priceElement = document.createElement('td');
+        var lowElement = document.createElement('td');
+        var highElement = document.createElement('td');
 
-        var high = document.createElement('td');
-        high.innerText = adjustSigFig(message[coin]['h']);
+        tickerElement.innerText = ticker;
+        priceElement.innerText = adjustSigFig(close);
+        lowElement.innerText = adjustSigFig(low);
+        highElement.innerText = adjustSigFig(high);
 
-        var changePercentage = document.createElement('td');
-        const changeValue = parseFloat((message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100).toFixed(2);
-        if (parseFloat(changeValue) > 0) {
+        var changePctElement = document.createElement('td');
+        const changeVal = parseFloat((close - open) / close * 100).toFixed(2);
+        if (parseFloat(changeVal) > 0) {
             // green
-            changePercentage.innerHTML = `<span style="color: #078f07;">${changeValue}%</span>`;
+            changePctElement.innerHTML = `<span style="color: #078f07;">${changeVal}%</span>`;
         } else {
             // red
-            changePercentage.innerHTML = `<span style="color: #d00;">${changeValue}%</span>`;
+            changePctElement.innerHTML = `<span style="color: #d00;">${changeVal}%</span>`;
         }
 
         // if symbol already exists, update prices otherwise add new row
-        const a = 'table-coin-' + message[coin]['s'].toLowerCase();
+        const a = 'table-coin-' + ticker.toLowerCase();
         const tickerTr = document.getElementById(a);
-        if(tickerTr) {
-            while(tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
+        if (tickerTr) {
+            while (tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
                 tickerTr.removeChild(tickerTr.lastChild);
             }
-            tickerTr.appendChild(price);
-            tickerTr.appendChild(low);
-            tickerTr.appendChild(high);
-            tickerTr.appendChild(changePercentage);
+            tickerTr.appendChild(priceElement);
+            tickerTr.appendChild(lowElement);
+            tickerTr.appendChild(highElement);
+            tickerTr.appendChild(changePctElement);
         } else {
             const tr = document.createElement('tr');
-            tr.id = 'table-coin-' + message[coin]['s'].toLowerCase();
-            
+            tr.id = 'table-coin-' + ticker.toLowerCase();
+
             // if row is clicked, change main data to coin on that row
             tr.onclick = function () {
                 selectedCoin = tr.id.split('-')[2].toUpperCase();
@@ -204,24 +215,32 @@ function updateCryptoTable(message) {
                 setCookie('selectedCoin', coinForm.value);
                 initaliseCoinData();
                 displayTradingViewChart();
-                window.scrollTo({top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            tr.appendChild(ticker);
-            tr.appendChild(price);
-            tr.appendChild(low);
-            tr.appendChild(high);
-            tr.appendChild(changePercentage);
+            tr.appendChild(tickerElement);
+            tr.appendChild(priceElement);
+            tr.appendChild(lowElement);
+            tr.appendChild(highElement);
+            tr.appendChild(changePctElement);
 
             cryptoTable.appendChild(tr);
         }
     }
 }
 
+function updateAllCoinData(message) {
+    for (coin of message) {
+        const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
+        allCoins.append
+    }
+}
+
+
 
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {
-    if(chartType === 'basic') {
+    if (chartType === 'basic') {
         new TradingView.MediumWidget(
             {
                 "symbols": [
@@ -244,29 +263,29 @@ function displayTradingViewChart() {
                 "container_id": "tradingview_widget_container"
             }
         );
-    } else if(chartType === 'advanced') {
+    } else if (chartType === 'advanced') {
         new TradingView.widget(
             {
-            "width": 0.7 * window.innerWidth,
-            "height": 0.85 * window.innerHeight,
-            "symbol": `BINANCE:${selectedCoin}`,
-            "interval": "1440",
-            "timezone": "Australia/Sydney",
-            "theme": "light",
-            "style": "1",
-            "locale": "en",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "allow_symbol_change": false,
-            "hide_top_toolbar": false,
-            "hide_side_toolbar": false,
-            "studies": [
-                "RSI@tv-basicstudies",
-            ],
-            "show_popup_button": true,
-            "container_id": "tradingview_widget_container",
+                "width": 0.7 * window.innerWidth,
+                "height": 0.85 * window.innerHeight,
+                "symbol": `BINANCE:${selectedCoin}`,
+                "interval": "1440",
+                "timezone": "Australia/Sydney",
+                "theme": "light",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": false,
+                "hide_top_toolbar": false,
+                "hide_side_toolbar": false,
+                "studies": [
+                    "RSI@tv-basicstudies",
+                ],
+                "show_popup_button": true,
+                "container_id": "tradingview_widget_container",
 
-          }
+            }
         );
     }
 }
