@@ -6,13 +6,20 @@ const spinner = document.getElementById('spinner');
 
 const initalisePage = function () {
     main.style.display = "none";
+
+    if(getCookie('selectedCoin')) {
+        selectedCoin = getCookie('selectedCoin');
+    } else {
+        selectedCoin;
+    }
+    
     displayTradingViewChart();
     addSupportedCoins();
     initaliseCoinData();
     displayPaginatedCoinData();
     updateTime();
     updateRSI();
-
+    
     setTimeout(function () {
         spinner.style.display = "none";
         main.style.display = "block";
@@ -105,6 +112,20 @@ function displayPaginatedCoinData() {
         })
         .catch(err => { console.log(err) });
         
+}
+
+function setCookie(cname, cvalue) {
+    document.cookie = cname + '=' + cvalue + ';';
+}
+
+function getCookie(cname) {
+    const cookies = document.cookie.split('; ');
+    for(cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if(name == cname) {
+            return value;
+        }
+    }
 }
 
 window.addEventListener('resize', () => {
