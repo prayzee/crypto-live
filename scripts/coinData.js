@@ -8,9 +8,11 @@ const chartViewCheckbox = document.getElementById('chartTypeSelection');
 chartViewCheckbox.checked = true;
 
 // all coins tabular display
-const allCoins = []
 const cryptoTable = document.getElementById('cryptoTable');
 const CRYPTO_TABLE_SIZE = 4;
+var skip = 0;
+var limit = 10;
+var finishedAddingCoins = false;
 
 // Update live price of selected coin through socket
 // @ param message
@@ -170,32 +172,20 @@ function extractCoinInfoFromWS(coin) {
 
 function updateCryptoTable(message) {
     // Coin data will only appear if its data has changed
-<<<<<<< HEAD
-    for (coin in message) {
-        const a = 'table-coin-' + message[coin]['s'].toLowerCase();
-        const tickerTr = document.getElementById(a);
-
-        // ticker not present in current 'page'
-        if(!tickerTr) {
+    for (coin of message) {
+        const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
+        const coinElementId = 'table-coin-' + ticker.toLowerCase();
+        const tickerTr = document.getElementById(coinElementId);
+ 
+        // If ticker doesn't exist on current page, no need to update
+        if (!tickerTr) {
             return;
         }
 
-        var ticker = document.createElement('td');
-        ticker.innerText = message[coin]['s'];
-        
-        var price = document.createElement('td');
-        price.innerText = adjustSigFig(message[coin]['c']);
-=======
-    for (coin of message) {
-        const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
->>>>>>> 11ceff30aa30305cac71bd332ac4c3df56dddece
-
-        var tickerElement = document.createElement('td');
         var priceElement = document.createElement('td');
         var lowElement = document.createElement('td');
         var highElement = document.createElement('td');
 
-        tickerElement.innerText = ticker;
         priceElement.innerText = adjustSigFig(close);
         lowElement.innerText = adjustSigFig(low);
         highElement.innerText = adjustSigFig(high);
@@ -209,65 +199,27 @@ function updateCryptoTable(message) {
             // red
             changePctElement.innerHTML = `<span style="color: #d00;">${changeVal}%</span>`;
         }
-
-<<<<<<< HEAD
-        // if symbol already exists, update prices
-        while(tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
+        
+        // Remove old data except name
+        while (tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
             tickerTr.removeChild(tickerTr.lastChild);
-=======
-        // if symbol already exists, update prices otherwise add new row
-        const a = 'table-coin-' + ticker.toLowerCase();
-        const tickerTr = document.getElementById(a);
-        if (tickerTr) {
-            while (tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
-                tickerTr.removeChild(tickerTr.lastChild);
-            }
-            tickerTr.appendChild(priceElement);
-            tickerTr.appendChild(lowElement);
-            tickerTr.appendChild(highElement);
-            tickerTr.appendChild(changePctElement);
-        } else {
-            const tr = document.createElement('tr');
-            tr.id = 'table-coin-' + ticker.toLowerCase();
-
-            // if row is clicked, change main data to coin on that row
-            tr.onclick = function () {
-                selectedCoin = tr.id.split('-')[2].toUpperCase();
-                coinForm.value = selectedCoin;
-                setCookie('selectedCoin', coinForm.value);
-                initaliseCoinData();
-                displayTradingViewChart();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            };
-
-            tr.appendChild(tickerElement);
-            tr.appendChild(priceElement);
-            tr.appendChild(lowElement);
-            tr.appendChild(highElement);
-            tr.appendChild(changePctElement);
-
-            cryptoTable.appendChild(tr);
->>>>>>> 11ceff30aa30305cac71bd332ac4c3df56dddece
         }
-        tickerTr.appendChild(price);
-        tickerTr.appendChild(low);
-        tickerTr.appendChild(high);
-        tickerTr.appendChild(changePercentage);
+
+        tickerTr.appendChild(priceElement);
+        tickerTr.appendChild(lowElement);
+        tickerTr.appendChild(highElement);
+        tickerTr.appendChild(changePctElement);
     }
 }
 
-<<<<<<< HEAD
-=======
-function updateAllCoinData(message) {
-    for (coin of message) {
-        const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
-        allCoins.append
+const scroll = addEventListener('scroll', () => {
+    // at end of page
+    if(!finishedAddingCoins && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        skip += limit;
+        displayPaginatedCoinData();
     }
-}
+});
 
-
-
->>>>>>> 11ceff30aa30305cac71bd332ac4c3df56dddece
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {
     if (chartType === 'basic') {

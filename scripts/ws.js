@@ -12,7 +12,6 @@ socket.onmessage = function (message) {
         case 'livePrice':
             // this could be optimised by doing both actions together
             // and preventing a double loop
-            updateAllCoinData(data.message);
             updateLiveCoinData(data.message);
             updateCryptoTable(data.message);
             break;

@@ -21,3 +21,7 @@ td, th {
 tr:hover {
     background-color: #92979E;
 }
+
+.loadingTable {
+    text-align: center;
+}
