@@ -159,6 +159,14 @@ chartViewCheckbox.addEventListener('input', (event) => {
 function updateCryptoTable(message) {
     // Coin data will only appear if its data has changed
     for (coin in message) {
+        const a = 'table-coin-' + message[coin]['s'].toLowerCase();
+        const tickerTr = document.getElementById(a);
+
+        // ticker not present in current 'page'
+        if(!tickerTr) {
+            return;
+        }
+
         var ticker = document.createElement('td');
         ticker.innerText = message[coin]['s'];
         
@@ -181,41 +189,16 @@ function updateCryptoTable(message) {
             changePercentage.innerHTML = `<span style="color: #d00;">${changeValue}%</span>`;
         }
 
-        // if symbol already exists, update prices otherwise add new row
-        const a = 'table-coin-' + message[coin]['s'].toLowerCase();
-        const tickerTr = document.getElementById(a);
-        if(tickerTr) {
-            while(tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
-                tickerTr.removeChild(tickerTr.lastChild);
-            }
-            tickerTr.appendChild(price);
-            tickerTr.appendChild(low);
-            tickerTr.appendChild(high);
-            tickerTr.appendChild(changePercentage);
-        } else {
-            const tr = document.createElement('tr');
-            tr.id = 'table-coin-' + message[coin]['s'].toLowerCase();
-
-            // if row is clicked, change main data to coin on that row
-            tr.onclick = function () {
-                selectedCoin = tr.id.split('-')[2].toUpperCase();
-                coinForm.value = selectedCoin;
-                initaliseCoinData();
-                displayTradingViewChart();
-                window.scrollTo({top: 0, behavior: 'smooth' });
-            };
-
-            tr.appendChild(ticker);
-            tr.appendChild(price);
-            tr.appendChild(low);
-            tr.appendChild(high);
-            tr.appendChild(changePercentage);
-
-            cryptoTable.appendChild(tr);
+        // if symbol already exists, update prices
+        while(tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
+            tickerTr.removeChild(tickerTr.lastChild);
         }
+        tickerTr.appendChild(price);
+        tickerTr.appendChild(low);
+        tickerTr.appendChild(high);
+        tickerTr.appendChild(changePercentage);
     }
 }
-
 
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {

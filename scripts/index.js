@@ -9,6 +9,7 @@ const initalisePage = function () {
     displayTradingViewChart();
     addSupportedCoins();
     initaliseCoinData();
+    displayPaginatedCoinData();
     updateTime();
     updateRSI();
 
@@ -21,34 +22,89 @@ const initalisePage = function () {
 function addSupportedCoins() {
     // Add supported coins
     fetch(API_URL + "binance/coins")
-    .then(response => response.json())
-    .then(res => { displaySupportedCoins(res['coins']) })
-    .catch(err => { console.log(err) });
+        .then(response => response.json())
+        .then(res => { displaySupportedCoins(res['coins']) })
+        .catch(err => { console.log(err) });
 }
 
 function initaliseCoinData() {
     // Display full day data for specified coin
     fetch(API_URL + "binance/24hr/" + selectedCoin)
-    .then(response => response.json())
-    .then(res => {
-        const changePercent = (res["lastPrice"] - res["prevClosePrice"]) / res["prevClosePrice"] * 100;
-        extractedData = {
-            "24hr High": adjustSigFig(res["highPrice"]),
-            "24hr Low": adjustSigFig(res["lowPrice"]),
-            "24hr Change": parseFloat(changePercent).toFixed(2)
-        }
+        .then(response => response.json())
+        .then(res => {
+            const changePercent = (res["lastPrice"] - res["prevClosePrice"]) / res["prevClosePrice"] * 100;
+            extractedData = {
+                "24hr High": adjustSigFig(res["highPrice"]),
+                "24hr Low": adjustSigFig(res["lowPrice"]),
+                "24hr Change": parseFloat(changePercent).toFixed(2)
+            }
 
-        displayFullDayData(extractedData);
+            displayFullDayData(extractedData);
 
-        // set live price to be initially the last price from retrieved 24hr price
-        const lastPrice = document.getElementById('livePrice');
-        lastPrice.innerText = adjustSigFig(res['lastPrice']);
+            // set live price to be initially the last price from retrieved 24hr price
+            const lastPrice = document.getElementById('livePrice');
+            lastPrice.innerText = adjustSigFig(res['lastPrice']);
 
-        // set tab title with live fetched price
-        document.title = `${adjustSigFig(res['lastPrice'])} | ${selectedCoin}`;
-    })
-    .catch(err => { console.log(err) });
+            // set tab title with live fetched price
+            document.title = `${adjustSigFig(res['lastPrice'])} | ${selectedCoin}`;
+        })
+        .catch(err => { console.log(err) });
 
+}
+
+function displayPaginatedCoinData() {
+    var coinData = [];
+    fetch(API_URL + "binance/24hr/coins")
+        .then(response => response.json())
+        .then(res => {
+            for (c of coinData) {
+                const { symbol, prevClosePrice, lowPrice, highPrice, priceChangePercent } = c;
+                
+                var ticker = document.createElement('td');
+                ticker.innerText = symbol;
+                
+                var price = document.createElement('td');
+                price.innerText = adjustSigFig(prevClosePrice);
+
+                var low = document.createElement('td');
+                low.innerText = adjustSigFig(lowPrice);
+
+                var high = document.createElement('td');
+                high.innerText = adjustSigFig(highPrice);
+
+                var changePercentage = document.createElement('td');
+                const changeValue = parseFloat(priceChangePercent).toFixed(2);
+                if (parseFloat(changeValue) > 0) {
+                    // green
+                    changePercentage.innerHTML = `<span style="color: #078f07;">${changeValue}%</span>`;
+                } else {
+                    // red
+                    changePercentage.innerHTML = `<span style="color: #d00;">${changeValue}%</span>`;
+                }
+
+                tr = document.createElement('tr');
+                tr.id = 'table-coin-' + symbol.toLowerCase();
+                
+                // if row is clicked, change main data to coin on that row
+                tr.onclick = function () {
+                    selectedCoin = tr.id.split('-')[2].toUpperCase();
+                    coinForm.value = selectedCoin;
+                    initaliseCoinData();
+                    displayTradingViewChart();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+        
+                tr.appendChild(ticker);
+                tr.appendChild(price);
+                tr.appendChild(low);
+                tr.appendChild(high);
+                tr.appendChild(changePercentage);
+        
+                cryptoTable.appendChild(tr);
+            }
+        })
+        .catch(err => { console.log(err) });
+        
 }
 
 window.addEventListener('resize', () => {
