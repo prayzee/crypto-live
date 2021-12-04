@@ -5,6 +5,8 @@ const main = document.getElementById('main');
 const spinner = document.getElementById('spinner');
 const animatedText = document.getElementById('animatedText');
 
+var chatViewPortWidth = visualViewport.width * 0.2;
+
 const initalisePage = function () {
     main.style.display = "none";
     
@@ -63,74 +65,6 @@ function initaliseCoinData() {
         .catch(err => { console.log(err) });
 }
 
-function displayPaginatedCoinData() {
-    var coinData = [];
-    
-    fetch(API_URL + "binance/24hr/coins" + '?' + `skip=${skip}` + '&' + `limit=${limit}`)
-    .then(response => response.json())
-    .then(res => {
-        if(res.data.length === 0) {
-            finishedAddingCoins = true;
-            return;
-        }
-
-        coinData = res.data.sort((a, b) => {
-            if(a.symbol < b.symbol) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
-
-        for (c of res.data) {
-            const { symbol, prevClosePrice, lowPrice, highPrice, priceChangePercent } = c;
-            var ticker = document.createElement('td');
-            ticker.innerText = symbol;
-            
-            var price = document.createElement('td');
-            price.innerText = adjustSigFig(prevClosePrice);
-
-            var low = document.createElement('td');
-            low.innerText = adjustSigFig(lowPrice);
-
-            var high = document.createElement('td');
-            high.innerText = adjustSigFig(highPrice);
-
-            var changePercentage = document.createElement('td');
-            const changeValue = parseFloat(priceChangePercent).toFixed(2);
-            if (parseFloat(changeValue) > 0) {
-                // green
-                changePercentage.innerHTML = `<span style="color: #078f07;">${changeValue}%</span>`;
-            } else {
-                // red
-                changePercentage.innerHTML = `<span style="color: #d00;">${changeValue}%</span>`;
-            }
-
-            const tr = document.createElement('tr');
-            tr.id = 'table-coin-' + symbol.toLowerCase();
-
-            // if row is clicked, change main data to coin on that row
-            tr.onclick = function () {
-                selectedCoin = tr.id.split('-')[2].toUpperCase();
-                coinForm.value = selectedCoin;
-                setCookie('selectedCoin', coinForm.value);
-                initaliseCoinData();
-                displayTradingViewChart();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            };
-    
-            tr.appendChild(ticker);
-            tr.appendChild(price);
-            tr.appendChild(low);
-            tr.appendChild(high);
-            tr.appendChild(changePercentage);
-    
-            cryptoTable.appendChild(tr);
-        }
-    })
-    .catch(err => { console.log(err) });
-}
-
 function setCookie(cname, cvalue) {
     document.cookie = cname + '=' + cvalue + ';';
 }
@@ -171,8 +105,16 @@ function typeAnimatedText() {
     type();
 }
 
+function updateTime() {
+    const clock = document.getElementById('clock');
+    clock.innerText = new Date().toLocaleTimeString();
+    setInterval(() => {
+        updateTime();
+    }, 1000);
+}
 
 window.addEventListener('resize', () => {
+    chatViewPortWidth = chat.offsetWidth;
     displayTradingViewChart();
 });
 

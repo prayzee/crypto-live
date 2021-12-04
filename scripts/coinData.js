@@ -98,15 +98,6 @@ function displaySupportedCoins(coins) {
     }
 }
 
-// update time every second
-function updateTime() {
-    const clock = document.getElementById('clock');
-    clock.innerText = new Date().toLocaleTimeString();
-    setInterval(() => {
-        updateTime();
-    }, 1000);
-}
-
 // update RSI every 15 seconds
 function updateRSI() {
     fetch(API_URL + 'binance/rsi/' + selectedCoin + '/1m/14')
@@ -151,16 +142,6 @@ function displayFullDayData(binanceData) {
     }
 }
 
-// Update chart view type upon chart mode change
-chartViewCheckbox.addEventListener('input', (event) => {
-    if (chartViewCheckbox.checked) {
-        chartType = 'advanced';
-    } else {
-        chartType = 'basic';
-    }
-    displayTradingViewChart();
-});
-
 function extractCoinInfoFromWS(coin) {
     const ticker = coin['s'];
     const close = coin['c'];
@@ -168,106 +149,4 @@ function extractCoinInfoFromWS(coin) {
     const high = coin['h'];
     const open = coin['o'];
     return { ticker, close, low, high, open }
-}
-
-function updateCryptoTable(message) {
-    // Coin data will only appear if its data has changed
-    for (coin of message) {
-        const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
-        const coinElementId = 'table-coin-' + ticker.toLowerCase();
-        const tickerTr = document.getElementById(coinElementId);
- 
-        // If ticker doesn't exist on current page, no need to update
-        if (!tickerTr) {
-            return;
-        }
-
-        var priceElement = document.createElement('td');
-        var lowElement = document.createElement('td');
-        var highElement = document.createElement('td');
-
-        priceElement.innerText = adjustSigFig(close);
-        lowElement.innerText = adjustSigFig(low);
-        highElement.innerText = adjustSigFig(high);
-
-        var changePctElement = document.createElement('td');
-        const changeVal = parseFloat((close - open) / close * 100).toFixed(2);
-        if (parseFloat(changeVal) > 0) {
-            // green
-            changePctElement.innerHTML = `<span style="color: #078f07;">${changeVal}%</span>`;
-        } else {
-            // red
-            changePctElement.innerHTML = `<span style="color: #d00;">${changeVal}%</span>`;
-        }
-        
-        // Remove old data except name
-        while (tickerTr.hasChildNodes() && tickerTr.childElementCount > 1) {
-            tickerTr.removeChild(tickerTr.lastChild);
-        }
-
-        tickerTr.appendChild(priceElement);
-        tickerTr.appendChild(lowElement);
-        tickerTr.appendChild(highElement);
-        tickerTr.appendChild(changePctElement);
-    }
-}
-
-const scroll = addEventListener('scroll', () => {
-    // at end of page
-    if(!finishedAddingCoins && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        skip += limit;
-        displayPaginatedCoinData();
-    }
-});
-
-// The TradingView widget is exposed by the TradingView CDN (src in HTML file)
-function displayTradingViewChart() {
-    if (chartType === 'basic') {
-        new TradingView.MediumWidget(
-            {
-                "symbols": [
-                    [
-                        `${selectedCoin}|1D`,
-                    ]
-                ],
-                "chartOnly": true,
-                "width": "1300",
-                "height": "800",
-                "locale": "en",
-                "colorTheme": "dark",
-                "gridLineColor": "rgba(159, 197, 232, 0)",
-                "trendLineColor": "#2962ff",
-                "fontColor": "rgba(255, 255, 255, 1)",
-                "underLineColor": "rgba(41, 98, 255, 0.3)",
-                "underLineBottomColor": "rgba(41, 98, 255, 0)",
-                "isTransparent": true,
-                "autosize": false,
-                "container_id": "tradingview_widget_container"
-            }
-        );
-    } else if (chartType === 'advanced') {
-        new TradingView.widget(
-            {
-                "width": 0.7 * window.innerWidth,
-                "height": 0.85 * window.innerHeight,
-                "symbol": `BINANCE:${selectedCoin}`,
-                "interval": "1440",
-                "timezone": "Australia/Sydney",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "toolbar_bg": "#f1f3f6",
-                "enable_publishing": false,
-                "allow_symbol_change": false,
-                "hide_top_toolbar": false,
-                "hide_side_toolbar": false,
-                "studies": [
-                    "RSI@tv-basicstudies",
-                ],
-                "show_popup_button": true,
-                "container_id": "tradingview_widget_container",
-
-            }
-        );
-    }
 }
