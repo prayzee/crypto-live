@@ -25,8 +25,8 @@ function displayTradingViewChart() {
         );
     } else if (chartType === 'advanced') {
         new TradingView.widget({
-            "width": Math.round((window.innerWidth - chatViewPortWidth) * 0.90),   // original 0.7 * window.innerWidth
-            "height": Math.round(window.innerHeight * 0.90), // original 0.85 * window.innerHeight
+            "width": Math.round((document.documentElement.clientWidth - chatViewPortWidth) * 0.90),   // original 0.7 * window.innerWidth
+            "height": Math.round(document.documentElement.clientHeight * 0.90), // original 0.85 * window.innerHeight
             "symbol": `BINANCE:${selectedCoin}`,
             "interval": "1440",
             "timezone": "Australia/Sydney",
