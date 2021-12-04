@@ -2,7 +2,6 @@ const API_URL = 'https://crypto-backend-app.herokuapp.com/api/';
 const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/');
 
 const main = document.getElementById('main');
-const spinner = document.getElementById('spinner');
 const animatedText = document.getElementById('animatedText');
 
 var chatViewPortWidth = visualViewport.width * 0.2;
@@ -26,7 +25,6 @@ const initalisePage = function () {
     updateRSI();
     
     setTimeout(function () {
-        spinner.style.display = "none";
         animatedText.style.display = "none";
         main.style.display = "block";
     }, 2500);
