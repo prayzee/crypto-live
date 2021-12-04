@@ -9,6 +9,7 @@ table {
 tr:first-child {
     position: sticky;
     top: 0;
+    background-color: #000058;
 }
 
 td, th {
@@ -18,7 +19,7 @@ td, th {
 }
 
 tr:hover {
-    background-color: #92979E;
+    background-color:#3C3CA8;
 }
 
 .loadingTable {

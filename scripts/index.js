@@ -3,9 +3,12 @@ const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/');
 
 const main = document.getElementById('main');
 const spinner = document.getElementById('spinner');
+const animatedText = document.getElementById('animatedText');
 
 const initalisePage = function () {
     main.style.display = "none";
+    
+    typeAnimatedText();
 
     if(getCookie('selectedCoin')) {
         selectedCoin = getCookie('selectedCoin');
@@ -22,9 +25,11 @@ const initalisePage = function () {
     
     setTimeout(function () {
         spinner.style.display = "none";
+        animatedText.style.display = "none";
         main.style.display = "block";
     }, 2500);
 }
+
 
 function addSupportedCoins() {
     // Add supported coins
@@ -139,6 +144,33 @@ function getCookie(cname) {
         }
     }
 }
+
+function typeAnimatedText() {
+    // main display currently set to none - turn typed text on
+    animatedText.style.fontSize = "100px";
+    animatedText.style.alignItems = "center";
+    animatedText.style.textAlign = "center";
+    animatedText.style.justifyContent = "center";
+    animatedText.style.display = "flex";
+    animatedText.style.minHeight = "100vh";
+
+    let toType = "Cryptocurrency Prices. Live.";
+    let i = 0;
+
+    const type = () => {
+        if(i < toType.length) {
+            let prev = animatedText.innerHTML;
+            animatedText.innerHTML += toType.charAt(i) + "|";
+            setTimeout(() => {
+                animatedText.innerHTML = prev + toType.charAt(i);
+                i++;
+            }, 50)
+            setTimeout(type, 50);
+        }
+    }
+    type();
+}
+
 
 window.addEventListener('resize', () => {
     displayTradingViewChart();
