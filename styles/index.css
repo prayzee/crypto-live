@@ -1,8 +1,12 @@
+body {
+    background-color: #001f3f;
+    color: white;
+}
+
 .title {
     text-align: left;
     margin: 0 auto;
 }
-
 
 .bannerWrapper {
     display: flex;

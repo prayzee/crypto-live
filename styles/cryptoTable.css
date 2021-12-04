@@ -3,13 +3,12 @@ table {
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
-    width: 95%;
+    width: 50%;
 }
 
 tr:first-child {
     position: sticky;
     top: 0;
-    background-color: #EBEDEF;
 }
 
 td, th {
