@@ -6,7 +6,7 @@ var selectedCoin = "BTCAUD";
 var chartType = 'advanced';
 const chartViewCheckbox = document.getElementById('chartTypeSelection');
 chartViewCheckbox.checked = true;
-
+console.log(chartViewCheckbox);
 // all coins tabular display
 const cryptoTable = document.getElementById('cryptoTable');
 const CRYPTO_TABLE_SIZE = 4;

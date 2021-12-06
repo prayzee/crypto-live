@@ -1,5 +1,8 @@
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {
+    let chartWidth = Math.round((document.documentElement.clientWidth - chatViewPortWidth) * 0.90);   // original 0.7 * window.innerWidth
+    let chartHeight = Math.round(document.documentElement.clientHeight * 0.90); // original 0.85 * window.innerHeight
+
     if (chartType === 'basic') {
         new TradingView.MediumWidget(
             {
@@ -9,8 +12,8 @@ function displayTradingViewChart() {
                     ]
                 ],
                 "chartOnly": true,
-                "width": "1300",
-                "height": "800",
+                "width": chartWidth,
+                "height": chartHeight,
                 "locale": "en",
                 "colorTheme": "dark",
                 "gridLineColor": "rgba(159, 197, 232, 0)",
@@ -25,8 +28,8 @@ function displayTradingViewChart() {
         );
     } else if (chartType === 'advanced') {
         new TradingView.widget({
-            "width": Math.round((document.documentElement.clientWidth - chatViewPortWidth) * 0.90),   // original 0.7 * window.innerWidth
-            "height": Math.round(document.documentElement.clientHeight * 0.90), // original 0.85 * window.innerHeight
+            "width": chartWidth,
+            "height": chartHeight,
             "symbol": `BINANCE:${selectedCoin}`,
             "interval": "1440",
             "timezone": "Australia/Sydney",
