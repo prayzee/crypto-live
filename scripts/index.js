@@ -7,8 +7,6 @@ var initialChartLoad = true;
 var chatViewPortWidth = document.documentElement.clientWidth * 0.25;
 
 const initalisePage = function () {
-    main.style.display = "none";
-    
     typeAnimatedText();
 
     if(getCookie('selectedCoin')) {
