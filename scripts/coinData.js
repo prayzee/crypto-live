@@ -32,33 +32,12 @@ var finishedAddingCoins = false;
 //     "q": "18"               // Total traded quote asset volume
 //   } ...]
 function updateLiveCoinData(message) {
-
     for (coin in message) {
+        updateCryptoTableCoinRow(message[coin]);
+
         // Note coin data will only appear if its data has changed
         if (message[coin]['s'] === selectedCoin) {
-            document.title = `${adjustSigFig(message[coin]['c'])} | ${selectedCoin}`;
-
-            var newPrice = adjustSigFig(message[coin]['c']);
-            var price = document.getElementById('livePrice');
-            var currentPrice = adjustSigFig(price.innerText);
-
-            if (price.innerText.length != 0 && currentPrice < newPrice) {
-                price.innerText = newPrice;
-                price.style.color = '#078f07'; // green
-            } else if (price.innerText.length != 0 && currentPrice > newPrice) {
-                price.innerText = newPrice;
-                price.style.color = '#d00'; // red
-            } else if (price == null) {
-                price.innerHTML = message[coin]['c'];
-            }
-
-            const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
-            extractedFullDayData = {
-                "24hr High": adjustSigFig(message[coin]['h']),
-                "24hr Low": adjustSigFig(message[coin]['l']),
-                "24hr Change": parseFloat(changePercent).toFixed(2)
-            }
-            displayFullDayData(extractedFullDayData);
+            updateSelectedCoinNavBarData(coin, message);
         }
     }
 };
@@ -140,6 +119,32 @@ function displayFullDayData(binanceData) {
 
         fullDayData.appendChild(dataElement);
     }
+}
+
+function updateSelectedCoinNavBarData(coin, message) {
+    document.title = `${adjustSigFig(message[coin]['c'])} | ${selectedCoin}`;
+
+    var newPrice = adjustSigFig(message[coin]['c']);
+    var price = document.getElementById('livePrice');
+    var currentPrice = adjustSigFig(price.innerText);
+
+    if (price.innerText.length != 0 && currentPrice < newPrice) {
+        price.innerText = newPrice;
+        price.style.color = '#078f07'; // green
+    } else if (price.innerText.length != 0 && currentPrice > newPrice) {
+        price.innerText = newPrice;
+        price.style.color = '#d00'; // red
+    } else if (price == null) {
+        price.innerHTML = message[coin]['c'];
+    }
+
+    const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
+    extractedFullDayData = {
+        "24hr High": adjustSigFig(message[coin]['h']),
+        "24hr Low": adjustSigFig(message[coin]['l']),
+        "24hr Change": parseFloat(changePercent).toFixed(2)
+    }
+    displayFullDayData(extractedFullDayData);
 }
 
 function extractCoinInfoFromWS(coin) {

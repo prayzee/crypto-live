@@ -10,10 +10,7 @@ socket.onmessage = function (message) {
             displayChatMessage(data.message);
             break;
         case 'livePrice':
-            // this could be optimised by doing both actions together
-            // and preventing a double loop
             updateLiveCoinData(data.message);
-            updateCryptoTable(data.message);
             break;
         default:
             console.log('unknown message type recieved: ' + message);

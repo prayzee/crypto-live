@@ -1,3 +1,5 @@
+const CHART_PCT_OF_REMAIN_VIEWPORT = 0.9;
+
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {
     if (chartType === 'basic') {
@@ -25,8 +27,8 @@ function displayTradingViewChart() {
         );
     } else if (chartType === 'advanced') {
         new TradingView.widget({
-            "width": Math.round((document.documentElement.clientWidth - chatViewPortWidth) * 0.90),   // original 0.7 * window.innerWidth
-            "height": Math.round(document.documentElement.clientHeight * 0.90), // original 0.85 * window.innerHeight
+            "width": Math.round((document.documentElement.clientWidth - chatViewPortWidth) * CHART_PCT_OF_REMAIN_VIEWPORT),
+            "height": Math.round(document.documentElement.clientHeight * CHART_PCT_OF_REMAIN_VIEWPORT),
             "symbol": `BINANCE:${selectedCoin}`,
             "interval": "1440",
             "timezone": "Australia/Sydney",

@@ -3,8 +3,10 @@ const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/');
 
 const main = document.getElementById('main');
 const animatedText = document.getElementById('animatedText');
+const CHAT_VIEWPORT_SIZE_PCT = 0.25;
 var initialChartLoad = true;
-var chatViewPortWidth = document.documentElement.clientWidth * 0.25;
+var chatViewPortWidth = document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT;
+
 
 const initalisePage = function () {
     main.style.display = "none";
@@ -113,10 +115,10 @@ function updateTime() {
 
 window.addEventListener('resize', () => {
     if(!initialChartLoad) {
-        let newChatWidth = Math.round(document.documentElement.clientWidth * 0.25);
+        let newChatWidth = Math.round(document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT);
         
         chat.style.width = `${newChatWidth}px`;
-        chatViewPortWidth = newChatWidth;;
+        chatViewPortWidth = newChatWidth;
     }
     displayTradingViewChart();
     initialChartLoad = false;
