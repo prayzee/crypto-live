@@ -90,7 +90,7 @@ function displayPaginatedCoinData() {
                     coinForm.value = selectedCoin;
                     setCookie('selectedCoin', coinForm.value);
                     initaliseCoinData();
-                    displayTradingViewChart();
+                    displayTradingViewChart();1``
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 };
 
@@ -111,5 +111,7 @@ const scroll = addEventListener('scroll', () => {
     if (!finishedAddingCoins && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         skip += limit;
         displayPaginatedCoinData();
+    } else if(finishedAddingCoins) {
+        document.getElementById('loadingTable').style.display = "none";
     }
 });

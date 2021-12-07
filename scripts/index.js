@@ -9,8 +9,6 @@ var chatViewPortWidth = document.documentElement.clientWidth * CHAT_VIEWPORT_SIZ
 
 
 const initalisePage = function () {
-    main.style.display = "none";
-    
     typeAnimatedText();
 
     if(getCookie('selectedCoin')) {
