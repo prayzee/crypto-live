@@ -106,8 +106,10 @@ function typeAnimatedText() {
 function updateTime() {
     const clock = document.getElementById('clock');
     clock.innerText = new Date().toLocaleTimeString();
+
     setInterval(() => {
-        updateTime();
+        const clock = document.getElementById('clock');
+        clock.innerText = new Date().toLocaleTimeString();
     }, 1000);
 }
 
