@@ -2,7 +2,19 @@ const CHART_PCT_OF_REMAIN_VIEWPORT = 0.9;
 
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {
-    let chartWidth =  Math.round((document.documentElement.clientWidth - chatViewPortWidth) * CHART_PCT_OF_REMAIN_VIEWPORT);
+    const tradingViewChart = document.getElementById('tradingViewChart');
+    while(tradingViewChart.firstChild) {
+        tradingViewChart.removeChild(tradingViewChart.firstChild);
+    }
+    
+    tradingViewChart.innerHTML = `
+        <div class="tradingview-widget-container">
+            <div id="tradingview_widget_container"></div>
+            <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/" rel="noopener"
+                target="_blank"><span class="blue-text">Charts </span></a> by TradingView</div>
+        </div`;
+
+    let chartWidth = Math.round((document.documentElement.clientWidth - chatViewPortWidth) * CHART_PCT_OF_REMAIN_VIEWPORT);
     let chartHeight = Math.round(document.documentElement.clientHeight * CHART_PCT_OF_REMAIN_VIEWPORT);
 
     if (chartType === 'basic') {

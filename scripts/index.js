@@ -45,7 +45,7 @@ function initaliseCoinData() {
         .then(response => response.json())
         .then(res => {
             const changePercent = (res["lastPrice"] - res["prevClosePrice"]) / res["prevClosePrice"] * 100;
-            extractedData = {
+            const extractedData = {
                 "24hr High": adjustSigFig(res["highPrice"]),
                 "24hr Low": adjustSigFig(res["lowPrice"]),
                 "24hr Change": parseFloat(changePercent).toFixed(2)
