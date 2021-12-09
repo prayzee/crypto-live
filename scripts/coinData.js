@@ -79,17 +79,15 @@ function displaySupportedCoins(coins) {
 
 // update RSI every 15 seconds
 function updateRSI() {
-    fetch(API_URL + 'binance/rsi/' + selectedCoin + '/1m/14')
+    setInterval(() => {
+        fetch(API_URL + 'binance/rsi/' + selectedCoin + '/1m/14')
         .then(response => response.json())
         .then(res => {
             const rsiElement = document.getElementById('rsi');
             rsiElement.innerHTML = 'RSI: ' + res[res.length - 1];
         })
         .catch(err => { console.log(err) });
-
-    setInterval(() => {
-        updateRSI();
-    }, 30000);
+    }, 15000);
 }
 
 // Displays 24hr low, 24hr high, low and change in top banner
