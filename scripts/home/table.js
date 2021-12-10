@@ -1,6 +1,28 @@
+import { API_URL } from "./index.js";
+import * as coin from "./coinData.js";
+import * as index from "./index.js";
+import * as chart from "./chart.js";
+
+var skip = 0;
+var limit = 10;
+var finishedAddingCoins = false;
+const CRYPTO_TABLE_SIZE = 4;
+
+export default function initialise() {
+    window.addEventListener('scroll', () => {
+        // at end of page
+        if (!finishedAddingCoins && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            skip += limit;
+            displayPaginatedCoinData();
+        } else if(finishedAddingCoins) {
+            document.getElementById('loadingTable').style.display = "none";
+        }
+    });
+}
+
 // Coin data will only appear if its data has changed
-function updateCryptoTableCoinRow(coin) {
-    const { ticker, close, low, high, open } = extractCoinInfoFromWS(coin);
+export function updateCryptoTableCoinRow(coinData) {
+    const { ticker, close, low, high, open } = coin.extractCoinInfoFromWS(coinData);
     const coinElementId = 'table-coin-' + ticker.toLowerCase();
     const tickerTr = document.getElementById(coinElementId);
 
@@ -13,9 +35,9 @@ function updateCryptoTableCoinRow(coin) {
     var lowElement = document.createElement('td');
     var highElement = document.createElement('td');
 
-    priceElement.innerText = adjustSigFig(close);
-    lowElement.innerText = adjustSigFig(low);
-    highElement.innerText = adjustSigFig(high);
+    priceElement.innerText = coin.adjustSigFig(close);
+    lowElement.innerText = coin.adjustSigFig(low);
+    highElement.innerText = coin.adjustSigFig(high);
 
     var changePctElement = document.createElement('td');
     const changeVal = parseFloat((close - open) / close * 100).toFixed(2);
@@ -38,7 +60,7 @@ function updateCryptoTableCoinRow(coin) {
     tickerTr.appendChild(changePctElement);
 }
 
-function displayPaginatedCoinData() {
+export const displayPaginatedCoinData = function displayPaginatedCoinData() {
     var coinData = [];
 
     fetch(API_URL + "binance/24hr/coins" + '?' + `skip=${skip}` + '&' + `limit=${limit}`)
@@ -57,19 +79,21 @@ function displayPaginatedCoinData() {
                 }
             });
 
-            for (c of res.data) {
+            const cryptoTable = document.getElementById('cryptoTable');
+
+            for (let c of res.data) {
                 const { symbol, prevClosePrice, lowPrice, highPrice, priceChangePercent } = c;
                 var ticker = document.createElement('td');
                 ticker.innerText = symbol;
 
                 var price = document.createElement('td');
-                price.innerText = adjustSigFig(prevClosePrice);
+                price.innerText = coin.adjustSigFig(prevClosePrice);
 
                 var low = document.createElement('td');
-                low.innerText = adjustSigFig(lowPrice);
+                low.innerText = coin.adjustSigFig(lowPrice);
 
                 var high = document.createElement('td');
-                high.innerText = adjustSigFig(highPrice);
+                high.innerText = coin.adjustSigFig(highPrice);
 
                 var changePercentage = document.createElement('td');
                 const changeValue = parseFloat(priceChangePercent).toFixed(2);
@@ -85,12 +109,14 @@ function displayPaginatedCoinData() {
                 tr.id = 'table-coin-' + symbol.toLowerCase();
 
                 // if row is clicked, change main data to coin on that row
+                const coinForm = document.getElementById('coinSelection');
+
                 tr.onclick = function () {
-                    selectedCoin = tr.id.split('-')[2].toUpperCase();
-                    coinForm.value = selectedCoin;
-                    setCookie('selectedCoin', coinForm.value);
-                    initaliseCoinData();
-                    displayTradingViewChart();1``
+                    coin.setSelectedCoin(tr.id.split('-')[2].toUpperCase());
+                    coinForm.value = coin.selectedCoin;
+                    index.setCookie('selectedCoin', coinForm.value);
+                    index.initialiseCoinData();
+                    chart.displayTradingViewChart();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 };
 
@@ -105,13 +131,3 @@ function displayPaginatedCoinData() {
         })
         .catch(err => { console.log(err) });
 }
-
-const scroll = addEventListener('scroll', () => {
-    // at end of page
-    if (!finishedAddingCoins && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        skip += limit;
-        displayPaginatedCoinData();
-    } else if(finishedAddingCoins) {
-        document.getElementById('loadingTable').style.display = "none";
-    }
-});

@@ -1,33 +1,55 @@
-const API_URL = 'https://crypto-backend-app.herokuapp.com/api/';
-const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/');
+import * as chart from "./chart.js";
+import * as table from "./table.js";
+import * as coin from "./coinData.js";
+import * as messaging from "./messaging.js";
+import * as ws from "./socket.js";
 
-const main = document.getElementById('main');
-const animatedText = document.getElementById('animatedText');
-const CHAT_VIEWPORT_SIZE_PCT = 0.25;
-var initialChartLoad = true;
-var chatViewPortWidth = document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT;
+export const CHAT_VIEWPORT_SIZE_PCT = 0.25;
+export var chatViewPortWidth = document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT;
+export const API_URL = 'https://crypto-backend-app.herokuapp.com/api/';
+export const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/');
+export var initialChartLoad = true;
 
+export default function initialisePage() {
 
-const initalisePage = function () {
+    const main = document.getElementById('main');
+    const animatedText = document.getElementById('animatedText');
+
     typeAnimatedText();
 
-    if(getCookie('selectedCoin')) {
-        selectedCoin = getCookie('selectedCoin');
-    } else {
-        selectedCoin;
+    if (getCookie('selectedCoin')) {
+        coin.setSelectedCoin(getCookie('selectedCoin'));
     }
-    
-    displayTradingViewChart();
+
+    chart.default();
+    coin.default();
+    table.default();
+    messaging.default();
+    ws.default();
+
+    chart.displayTradingViewChart();
     addSupportedCoins();
-    initaliseCoinData();
-    displayPaginatedCoinData();
+    initialiseCoinData();
+    table.displayPaginatedCoinData();
     updateTime();
-    updateRSI();
-    
+    coin.updateRSI();
+
     setTimeout(function () {
         animatedText.style.display = "none";
         main.style.display = "block";
     }, 2500);
+
+    window.addEventListener('resize', () => {
+        const chat = document.getElementById('chat');
+        if (!initialChartLoad) {
+            let newChatWidth = Math.round(document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT);
+
+            chat.style.width = `${newChatWidth}px`;
+            chatViewPortWidth = newChatWidth;
+        }
+        chart.displayTradingViewChart();
+        initialChartLoad = false;
+    });
 }
 
 
@@ -35,43 +57,43 @@ function addSupportedCoins() {
     // Add supported coins
     fetch(API_URL + "binance/coins")
         .then(response => response.json())
-        .then(res => { displaySupportedCoins(res['coins']) })
+        .then(res => { coin.displaySupportedCoins(res['coins']) })
         .catch(err => { console.log(err) });
 }
 
-function initaliseCoinData() {
+export function initialiseCoinData() {
     // Display full day data for specified coin
-    fetch(API_URL + "binance/24hr/" + selectedCoin)
+    fetch(API_URL + "binance/24hr/" + coin.selectedCoin)
         .then(response => response.json())
         .then(res => {
             const changePercent = (res["lastPrice"] - res["prevClosePrice"]) / res["prevClosePrice"] * 100;
             const extractedData = {
-                "24hr High": adjustSigFig(res["highPrice"]),
-                "24hr Low": adjustSigFig(res["lowPrice"]),
+                "24hr High": coin.adjustSigFig(res["highPrice"]),
+                "24hr Low": coin.adjustSigFig(res["lowPrice"]),
                 "24hr Change": parseFloat(changePercent).toFixed(2)
             }
 
-            displayFullDayData(extractedData);
+            coin.displayFullDayData(extractedData);
 
             // set live price to be initially the last price from retrieved 24hr price
             const lastPrice = document.getElementById('livePrice');
-            lastPrice.innerText = adjustSigFig(res['lastPrice']);
+            lastPrice.innerText = coin.adjustSigFig(res['lastPrice']);
 
             // set tab title with live fetched price
-            document.title = `${adjustSigFig(res['lastPrice'])} | ${selectedCoin}`;
+            document.title = `${coin.adjustSigFig(res['lastPrice'])} | ${coin.selectedCoin}`;
         })
         .catch(err => { console.log(err) });
 }
 
-function setCookie(cname, cvalue) {
+export function setCookie(cname, cvalue) {
     document.cookie = cname + '=' + cvalue + ';';
 }
 
 function getCookie(cname) {
     const cookies = document.cookie.split('; ');
-    for(cookie of cookies) {
+    for (let cookie of cookies) {
         const [name, value] = cookie.split('=');
-        if(name == cname) {
+        if (name == cname) {
             return value;
         }
     }
@@ -90,7 +112,7 @@ function typeAnimatedText() {
     let i = 0;
 
     const type = () => {
-        if(i < toType.length) {
+        if (i < toType.length) {
             let prev = animatedText.innerHTML;
             animatedText.innerHTML += toType.charAt(i) + "|";
             setTimeout(() => {
@@ -112,16 +134,3 @@ function updateTime() {
         clock.innerText = new Date().toLocaleTimeString();
     }, 1000);
 }
-
-window.addEventListener('resize', () => {
-    if(!initialChartLoad) {
-        let newChatWidth = Math.round(document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT);
-        
-        chat.style.width = `${newChatWidth}px`;
-        chatViewPortWidth = newChatWidth;
-    }
-    displayTradingViewChart();
-    initialChartLoad = false;
-});
-
-window.onload = initalisePage;

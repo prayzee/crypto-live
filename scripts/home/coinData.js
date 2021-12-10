@@ -1,18 +1,25 @@
-// main selected coin
-const coinForm = document.getElementById('coinSelection');
-var selectedCoin = "BTCAUD";
+import * as table from "./table.js";
+import * as index from "./index.js";
+import * as chart from "./chart.js";
 
-// initally page loads with advanced view
-var chartType = 'advanced';
-const chartViewCheckbox = document.getElementById('chartTypeSelection');
-chartViewCheckbox.checked = true;
+export var selectedCoin = "BTCAUD";
 
-// all coins tabular display
-const cryptoTable = document.getElementById('cryptoTable');
-const CRYPTO_TABLE_SIZE = 4;
-var skip = 0;
-var limit = 10;
-var finishedAddingCoins = false;
+export default function initialise() {
+    // main selected coin
+    const coinForm = document.getElementById('coinSelection');
+    
+    // changes to coin selection reflected throughout page
+    coinForm.addEventListener('change', (event) => {
+        selectedCoin = coinForm.value;
+        index.initialiseCoinData();
+        chart.displayTradingViewChart();
+        index.setCookie('selectedCoin', coinForm.value);
+    });
+}
+
+export function setSelectedCoin(coin) {
+    selectedCoin = coin;
+}
 
 // Update live price of selected coin through socket
 // @ param message
@@ -31,9 +38,9 @@ var finishedAddingCoins = false;
 //     "v": "10000",           // Total traded base asset volume
 //     "q": "18"               // Total traded quote asset volume
 //   } ...]
-function updateLiveCoinData(message) {
-    for (coin in message) {
-        updateCryptoTableCoinRow(message[coin]);
+export function updateLiveCoinData(message) {
+    for (let coin in message) {
+        table.updateCryptoTableCoinRow(message[coin]);
 
         // Note coin data will only appear if its data has changed
         if (message[coin]['s'] === selectedCoin) {
@@ -44,7 +51,7 @@ function updateLiveCoinData(message) {
 
 // if coins are less than $1 keep the default sig fig
 // otherwise remove excess 0's
-function adjustSigFig(num) {
+export function adjustSigFig(num) {
     num = parseFloat(num);
     if (num > 1) {
         return num.toFixed(2);
@@ -52,16 +59,9 @@ function adjustSigFig(num) {
     return num;
 }
 
-// changes to coin selection reflected throughout page
-coinForm.addEventListener('change', (event) => {
-    selectedCoin = coinForm.value;
-    initaliseCoinData();
-    displayTradingViewChart();
-    setCookie('selectedCoin', coinForm.value);
-});
 
 // Coins for which data is available
-function displaySupportedCoins(coins) {
+export function displaySupportedCoins(coins) {
     coins.sort();
 
     const DataElement = document.getElementById('coinSelection');
@@ -78,15 +78,15 @@ function displaySupportedCoins(coins) {
 }
 
 // update RSI every 15 seconds
-function updateRSI() {
+export const updateRSI = function updateRSI() {
     setInterval(() => {
-        fetch(API_URL + 'binance/rsi/' + selectedCoin + '/1m/14')
-        .then(response => response.json())
-        .then(res => {
-            const rsiElement = document.getElementById('rsi');
-            rsiElement.innerHTML = 'RSI: ' + res[res.length - 1];
-        })
-        .catch(err => { console.log(err) });
+        fetch(index.API_URL + 'binance/rsi/' + selectedCoin + '/1m/14')
+            .then(response => response.json())
+            .then(res => {
+                const rsiElement = document.getElementById('rsi');
+                rsiElement.innerHTML = 'RSI: ' + res[res.length - 1];
+            })
+            .catch(err => { console.log(err) });
     }, 15000);
 }
 
@@ -95,7 +95,7 @@ function updateRSI() {
 //                          "key1": "value1",
 //                          "key2": "value2"
 //                      }
-function displayFullDayData(binanceData) {
+export function displayFullDayData(binanceData) {
     const fullDayData = document.getElementById('fullDayData');
     fullDayData.innerText = '';
     for (var i in binanceData) {
@@ -137,7 +137,7 @@ function updateSelectedCoinNavBarData(coin, message) {
     }
 
     const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
-    extractedFullDayData = {
+    const extractedFullDayData = {
         "24hr High": adjustSigFig(message[coin]['h']),
         "24hr Low": adjustSigFig(message[coin]['l']),
         "24hr Change": parseFloat(changePercent).toFixed(2)
@@ -145,7 +145,7 @@ function updateSelectedCoinNavBarData(coin, message) {
     displayFullDayData(extractedFullDayData);
 }
 
-function extractCoinInfoFromWS(coin) {
+export function extractCoinInfoFromWS(coin) {
     const ticker = coin['s'];
     const close = coin['c'];
     const low = coin['l'];

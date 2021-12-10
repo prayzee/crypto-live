@@ -1,12 +1,35 @@
-const CHART_PCT_OF_REMAIN_VIEWPORT = 0.9;
+import { chatViewPortWidth, CHAT_VIEWPORT_SIZE_PCT } from "./index.js";
+import * as coin from "./coinData.js";
 
-// The TradingView widget is exposed by the TradingView CDN (src in HTML file)
-function displayTradingViewChart() {
+const CHART_PCT_OF_REMAIN_VIEWPORT = 0.9;
+var chartType = 'advanced';
+
+export default function initialise() {
+    // Update chart view type upon chart mode change
+    const chartViewCheckbox = document.getElementById('chartTypeSelection');
+    chartViewCheckbox.checked = true;
+
+    chartViewCheckbox.addEventListener('input', (event) => {
+        if (chartViewCheckbox.checked) {
+            chartType = 'advanced';
+        } else {
+            chartType = 'basic';
+        }
+        displayTradingViewChart();
+    });
+}
+
+
+
+// The TradingView widget is exposed by the TradingView CDN (src in HTML file).
+// The current auto resizing functionality provided by Trading view does not work as intended, so its handed manually.
+// Removes all instances to the current object, then creates a new object with the new size.
+export function displayTradingViewChart() {
     const tradingViewChart = document.getElementById('tradingViewChart');
     while(tradingViewChart.firstChild) {
         tradingViewChart.removeChild(tradingViewChart.firstChild);
     }
-    
+
     tradingViewChart.innerHTML = `
         <div class="tradingview-widget-container">
             <div id="tradingview_widget_container"></div>
@@ -22,7 +45,7 @@ function displayTradingViewChart() {
             {
                 "symbols": [
                     [
-                        `${selectedCoin}|1D`,
+                        `${coin.selectedCoin}|1D`,
                     ]
                 ],
                 "chartOnly": true,
@@ -36,7 +59,6 @@ function displayTradingViewChart() {
                 "underLineColor": "rgba(41, 98, 255, 0.3)",
                 "underLineBottomColor": "rgba(41, 98, 255, 0)",
                 "isTransparent": true,
-                "autosize": false,
                 "container_id": "tradingview_widget_container"
             }
         );
@@ -44,7 +66,7 @@ function displayTradingViewChart() {
         new TradingView.widget({
             "width": chartWidth,
             "height": chartHeight,
-            "symbol": `BINANCE:${selectedCoin}`,
+            "symbol": `BINANCE:${coin.selectedCoin}`,
             "interval": "1440",
             "timezone": "Australia/Sydney",
             "theme": "dark",
@@ -63,13 +85,3 @@ function displayTradingViewChart() {
         });
     }
 }
-
-// Update chart view type upon chart mode change
-chartViewCheckbox.addEventListener('input', (event) => {
-    if (chartViewCheckbox.checked) {
-        chartType = 'advanced';
-    } else {
-        chartType = 'basic';
-    }
-    displayTradingViewChart();
-});
