@@ -1,10 +1,17 @@
 import { router } from "./router.js";
 
 const app = () => {
+    // remove
+    setTimeout(function () {
+        animatedText.style.display = "none";
+        main.style.display = "block";
+    }, 20);
+    
+    
     let location = document.location.pathname;
     let route = router[document.location.pathname];
 
-    typeAnimatedText();
+    // typeAnimatedText();
     
     if(route === undefined) {
         location = '/';
@@ -19,10 +26,10 @@ const app = () => {
     main.innerHTML = route.html;
     route.initialise();
 
-    setTimeout(function () {
-        animatedText.style.display = "none";
-        main.style.display = "block";
-    }, 2500);
+    // setTimeout(function () {
+    //     animatedText.style.display = "none";
+    //     main.style.display = "block";
+    // }, 2500);
 }
 
 function typeAnimatedText() {

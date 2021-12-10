@@ -1,3 +1,5 @@
-export default function initialisePage() {
-    console.log('hur hur');
+import * as register from "./register.js";
+
+export default function initialise() {
+    register.default();
 }
