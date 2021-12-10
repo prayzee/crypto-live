@@ -1,13 +1,16 @@
-import { home } from "./scripts/home/home.js"
-import { default as initialisePage } from "./scripts/home/index.js"
-import { login } from "./scripts/login/login.js"
+import * as home from "./scripts/home/home.js"
+import * as homeIndex from "./scripts/home/index.js"
+
+import * as login from "./scripts/login/login.js"
+import * as loginIndex from "./scripts/login/index.js"
 
 export const router = {
     "/": {
-        "html": home,
-        "initialise": initialisePage,
+        "html": home.home,
+        "initialise": homeIndex.default,
     },
-    "login": {
-        "html": login,
-    }
+    "/login": {
+        "html": login.login,
+        "initialise": loginIndex.default,
+    },
 }

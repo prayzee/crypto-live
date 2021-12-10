@@ -18,6 +18,8 @@ export default function initialise() {
             document.getElementById('loadingTable').style.display = "none";
         }
     });
+
+    displayPaginatedCoinData();
 }
 
 // Coin data will only appear if its data has changed

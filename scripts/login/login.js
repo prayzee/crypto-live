@@ -1,5 +1,5 @@
-export const login =  function login() {
-    return `
-        "<h1> Login </h1>"
-    `;
-}
+export const login =
+    `
+        <h1> Login </h1>
+    `
+;

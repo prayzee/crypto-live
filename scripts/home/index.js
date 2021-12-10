@@ -11,12 +11,6 @@ export const socket = new WebSocket('wss://crypto-backend-app.herokuapp.com/api/
 export var initialChartLoad = true;
 
 export default function initialisePage() {
-
-    const main = document.getElementById('main');
-    const animatedText = document.getElementById('animatedText');
-
-    typeAnimatedText();
-
     if (getCookie('selectedCoin')) {
         coin.setSelectedCoin(getCookie('selectedCoin'));
     }
@@ -27,18 +21,10 @@ export default function initialisePage() {
     messaging.default();
     ws.default();
 
-    chart.displayTradingViewChart();
     addSupportedCoins();
     initialiseCoinData();
-    table.displayPaginatedCoinData();
     updateTime();
-    coin.updateRSI();
-
-    setTimeout(function () {
-        animatedText.style.display = "none";
-        main.style.display = "block";
-    }, 2500);
-
+    
     window.addEventListener('resize', () => {
         const chat = document.getElementById('chat');
         if (!initialChartLoad) {
@@ -97,32 +83,6 @@ function getCookie(cname) {
             return value;
         }
     }
-}
-
-function typeAnimatedText() {
-    // main display currently set to none - turn typed text on
-    animatedText.style.fontSize = "100px";
-    animatedText.style.alignItems = "center";
-    animatedText.style.textAlign = "center";
-    animatedText.style.justifyContent = "center";
-    animatedText.style.display = "flex";
-    animatedText.style.minHeight = "100vh";
-
-    let toType = "Cryptocurrency Prices. Live.";
-    let i = 0;
-
-    const type = () => {
-        if (i < toType.length) {
-            let prev = animatedText.innerHTML;
-            animatedText.innerHTML += toType.charAt(i) + "|";
-            setTimeout(() => {
-                animatedText.innerHTML = prev + toType.charAt(i);
-                i++;
-            }, 50)
-            setTimeout(type, 50);
-        }
-    }
-    type();
 }
 
 function updateTime() {

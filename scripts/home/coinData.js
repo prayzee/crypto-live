@@ -15,6 +15,8 @@ export default function initialise() {
         chart.displayTradingViewChart();
         index.setCookie('selectedCoin', coinForm.value);
     });
+
+    updateRSI();
 }
 
 export function setSelectedCoin(coin) {
