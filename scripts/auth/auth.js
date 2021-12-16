@@ -48,6 +48,7 @@ export default function initialise() {
 
             if (registered) {
                 index.setLoggedIn(true);
+                // TODO: redirect to login page instead to retrieve JWT
                 history.pushState(null, null, '/');
                 // TODO: make an event that watches the history state and appropriately calls the correct init function
                 mainIndex.app();
