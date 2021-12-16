@@ -1,21 +1,24 @@
 import { router } from "./router.js";
+import * as auth from "./scripts/auth/index.js";
 
-const app = () => {
-    // remove
-    setTimeout(function () {
-        animatedText.style.display = "none";
-        main.style.display = "block";
-    }, 20);
-    
-    
+export function app () {
     let location = document.location.pathname;
     let route = router[document.location.pathname];
 
-    // typeAnimatedText();
+    typeAnimatedText();
     
-    if(route === undefined) {
+    if(
+        (route === undefined && auth.isLoggedIn()) || 
+        (location === '/login' && auth.isLoggedIn())
+    ) {
         location = '/';
         route = router["/"];
+    } else if(
+        route === undefined || 
+        (location === '/' && !auth.isLoggedIn())
+    )  {
+        location = '/login';
+        route = router["/login"];
     }
 
     history.pushState(null, null, location);
@@ -26,10 +29,10 @@ const app = () => {
     main.innerHTML = route.html;
     route.initialise();
 
-    // setTimeout(function () {
-    //     animatedText.style.display = "none";
-    //     main.style.display = "block";
-    // }, 2500);
+    setTimeout(function () {
+        animatedText.style.display = "none";
+        main.style.display = "block";
+    }, 2500);
 }
 
 function typeAnimatedText() {
@@ -58,4 +61,6 @@ function typeAnimatedText() {
     type();
 }
 
+// whenever the route is changed using window.location.href
+// the app function is called
 document.addEventListener("DOMContentLoaded", app);

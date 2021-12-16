@@ -17,6 +17,7 @@ body {
 .coin-selection {
     padding-left: 1px;
     padding-right: 1px;
+    margin-left: 50px;
 }
 
 .livePrice {
@@ -30,6 +31,7 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     margin-left: auto;
+    margin-right: 50px;
 }
 
 .fullDayData {
@@ -70,4 +72,10 @@ body {
 
 .analysisWrapper {
     display: flex;
+}
+
+.button-primary {
+    background-color: black;
+}
+
 }
