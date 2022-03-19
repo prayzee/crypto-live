@@ -1,6 +1,7 @@
 body {
     background-color: #001f3f;
     color: white;
+    margin: 0;
 }
 
 .title {
@@ -9,38 +10,51 @@ body {
 }
 
 .bannerWrapper {
+    background-color: #003f3d;
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
-}
-
-.coin-selection {
-    padding-left: 1px;
-    padding-right: 1px;
+    gap: 50px;
+    padding-left: 80px;
+    padding-right: 80px;
 }
 
 .livePrice {
-    font-size: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
+    font-size: 50px;
+    transition: 0.7s;
+    align-content: center;
+    text-align: start;
+}
+
+.fullDayData {
+    text-align: start;
+    transition: 0.7s;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.livePrice:hover {
+    transform: scale(1.1, 1.05);
+    transform-origin: left;
+}
+
+.fullDayData:hover {
+    transform: scale(1.05, 1.05);
+    transform-origin: left;
 }
 
 .clock {
     font-size: 30px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-left: auto;
-}
-
-.fullDayData {
-    display: flex;
-    padding-left: 10px;
-    padding-right: 10px;
+    /* margin-left: auto; */
 }
 
 .mainWrapper {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 20px;
 }
 
 .chat {
@@ -50,6 +64,20 @@ body {
     scrollbar-width: none; /* firefox */
     word-wrap: break-word;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    background-color: #00383f;
+}
+
+#messageToSend {
+    background-color: #003f3d;
+    transition: 0.7s;
+    color: white;
+    border-radius: 15px;
+}
+
+#messageToSend:hover {
+    transform: scale(1.15, 1.15);
+    transform-origin: center;
 }
 
 .chat::-webkit-scrollbar {

@@ -14,6 +14,8 @@ function displayTradingViewChart() {
                 target="_blank"><span class="blue-text">Charts </span></a> by TradingView</div>
         </div`;
 
+    tradingViewChart.style.paddingTop = '15px';
+
     let chartWidth = Math.round((document.documentElement.clientWidth - chatViewPortWidth) * CHART_PCT_OF_REMAIN_VIEWPORT);
     let chartHeight = Math.round(document.documentElement.clientHeight * CHART_PCT_OF_REMAIN_VIEWPORT);
 

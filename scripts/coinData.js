@@ -102,9 +102,6 @@ function displayFullDayData(binanceData) {
         var dataElement = document.createElement('h9');
         dataElement.innerHTML = `${i}<br>${binanceData[i]}`;
 
-        dataElement.style.paddingLeft = '10px';
-        dataElement.style.paddingRight = '10px';
-
         if (i == '24hr Change') {
             if (parseFloat(binanceData[i]) > 0) {
                 // green
