@@ -1,0 +1,33 @@
+.chat {
+    width: 25vw;
+    height: 40vh;
+    overflow-y: scroll;
+    scrollbar-width: none; /* firefox */
+    word-wrap: break-word;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    background-color: #00383f;
+}
+
+#messageToSend {
+    background-color: #003f3d;
+    transition: 0.7s;
+    color: white;
+    border-radius: 15px;
+}
+
+#messageToSend:hover {
+    transform: scale(1.15, 1.15);
+    transform-origin: center;
+}
+
+.chat::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.chatWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

@@ -7,6 +7,7 @@ const CHAT_VIEWPORT_SIZE_PCT = 0.25;
 var initialChartLoad = true;
 var chatViewPortWidth = document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT;
 
+const CACHE_NAME = "crypto-live";
 
 const initalisePage = function () {
     typeAnimatedText();
@@ -22,7 +23,7 @@ const initalisePage = function () {
     initaliseCoinData();
     displayPaginatedCoinData();
     updateTime();
-    updateRSI();
+    // updateRSI();
     
     setTimeout(function () {
         animatedText.style.display = "none";
@@ -33,10 +34,39 @@ const initalisePage = function () {
 
 function addSupportedCoins() {
     // Add supported coins
-    fetch(API_URL + "binance/coins")
-        .then(response => response.json())
-        .then(res => { displaySupportedCoins(res['coins']) })
-        .catch(err => { console.log(err) });
+
+    const coinsListURL = API_URL + "binance/coins";
+
+    if('caches' in window) {
+        caches
+            .open(CACHE_NAME)
+            .then(cache => {
+                cache
+                    .match(coinsListURL)
+                    .then(async (cachedData) => {
+                        if(cachedData == undefined) {
+                            const coinsListResponse = await fetch(coinsListURL);
+                            await cache.put(coinsListURL, coinsListResponse);
+
+                            cachedData = await cache.match(coinsListURL);
+                        }
+
+                        return cachedData.json();
+                    })
+                    .then(res => {
+                        displaySupportedCoins(res['coins'])
+                    })
+                    .catch(err => {
+                        console.log(err) 
+                    });
+            })
+    } else {
+        fetch(API_URL + "binance/coins")
+            .then(response => response.json())
+            .then(res => { displaySupportedCoins(res['coins']) })
+            .catch(err => { console.log(err) });
+    }
+
 }
 
 function initaliseCoinData() {
