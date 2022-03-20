@@ -14,9 +14,9 @@ const initalisePage = function () {
     
     if(getCookie('selectedCoin')) {
         selectedCoin = getCookie('selectedCoin');
-    } else {
-        selectedCoin;
     }
+
+    setSymbolPriceObjCoin(selectedCoin);
     
     displayTradingViewChart();
     addSupportedCoins();
@@ -30,7 +30,6 @@ const initalisePage = function () {
         main.style.display = "block";
     }, 2500);
 }
-
 
 function addSupportedCoins() {
     // Add supported coins
@@ -76,9 +75,11 @@ function initaliseCoinData() {
         .then(res => {
             const changePercent = (res["lastPrice"] - res["prevClosePrice"]) / res["prevClosePrice"] * 100;
             const extractedData = {
+                "24hr Open": adjustSigFig(res["openPrice"]),
                 "24hr High": adjustSigFig(res["highPrice"]),
                 "24hr Low": adjustSigFig(res["lowPrice"]),
-                "24hr Change": parseFloat(changePercent).toFixed(2)
+                "24hr Change": parseFloat(changePercent).toFixed(2),
+                "Volume": adjustSigFig(res["volume"])
             }
 
             displayFullDayData(extractedData);
@@ -141,6 +142,11 @@ function updateTime() {
         const clock = document.getElementById('clock');
         clock.innerText = new Date().toLocaleTimeString();
     }, 1000);
+}
+
+function setSymbolPriceObjCoin(coin) {
+    const div = document.getElementById('selectedCoinSymbol');
+    div.innerText = coin;
 }
 
 window.addEventListener('resize', () => {

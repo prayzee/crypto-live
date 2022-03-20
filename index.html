@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/chartButton.css">
     <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/chat.css">
+    <link rel="stylesheet" href="styles/selectedCoinData.css">
 </head>
 
 <body>
@@ -39,7 +41,10 @@
         <div class="mainWrapper">
             <div id="tradingViewChart"> <!-- Chart will be added here --> </div>
             <form class="chatWrapper" id="chatForm">
-                <div class="livePrice" id="livePrice"> </div>
+                <div class="symbolPriceObj" id=""symbolPriceObj">
+                    <div class="selectedCoinSymbol" id="selectedCoinSymbol"> </div>
+                    <div class="livePrice" id="livePrice"> </div>
+                </div>
                 <div class="fullDayData" id="fullDayData"> </div>
                 <div class="chat" id="chat"> </div>
                 <input type="text" class="messageToSend" id="messageToSend">

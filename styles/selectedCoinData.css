@@ -1,0 +1,38 @@
+.symbolPriceObj {
+    display: flex;
+    gap: 30px;
+}
+
+.selectedCoinSymbol {
+    font-size: 50px;
+    transition: 0.7s;
+    align-content: center;
+    text-align: start;
+    /* color: #bf6100; */
+    color: white;
+}
+
+.livePrice {
+    font-size: 50px;
+    transition: 0.7s;
+    align-content: center;
+    text-align: start;
+}
+
+.fullDayData {
+    text-align: start;
+    transition: 0.7s;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.livePrice:hover, .selectedCoinSymbol:hover {
+    transform: scale(1.1, 1.05);
+    transform-origin: left;
+}
+
+.fullDayData:hover {
+    transform: scale(1.05, 1.05);
+    transform-origin: left;
+}

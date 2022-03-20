@@ -58,6 +58,7 @@ coinForm.addEventListener('change', (event) => {
     initaliseCoinData();
     displayTradingViewChart();
     setCookie('selectedCoin', coinForm.value);
+    setSymbolPriceObjCoin(selectedCoin);
 });
 
 // Coins for which data is available
@@ -135,9 +136,11 @@ function updateSelectedCoinNavBarData(coin, message) {
 
     const changePercent = (message[coin]['c'] - message[coin]['o']) / message[coin]['c'] * 100;
     extractedFullDayData = {
+        "24hr Open": adjustSigFig(message[coin]['o']),
         "24hr High": adjustSigFig(message[coin]['h']),
         "24hr Low": adjustSigFig(message[coin]['l']),
-        "24hr Change": parseFloat(changePercent).toFixed(2)
+        "24hr Change": parseFloat(changePercent).toFixed(2),
+        "Volume": adjustSigFig(message[coin]['v'])
     }
     displayFullDayData(extractedFullDayData);
 }
