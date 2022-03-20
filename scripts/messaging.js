@@ -8,7 +8,8 @@ function displayChatMessage(message) {
     const chat = document.getElementById('chat');
     const messageTimestamp = new Date(message.time).toLocaleTimeString();
     const p = document.createElement('p');
-    p.innerHTML = `<b> ${message.user} [${messageTimestamp}] </b>: ${message.message}`;
+    // p.innerHTML = `<b> ${message.user} [${messageTimestamp}] </b>: ${message.message}`;
+    p.innerHTML = `<b> Anonymous </b>: ${message.message}`;
     p.style.cssText = 'margin: 1%';
 
     chat.appendChild(p);
