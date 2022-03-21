@@ -1,9 +1,0 @@
-.chartTypeWrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-input[type=checkbox]{
-  size: 50px;
-  transform: scale(2);
-}

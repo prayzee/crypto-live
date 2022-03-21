@@ -3,7 +3,7 @@ table {
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
-    width: 85%;
+    width: 80vw;
     border: none;
 }
 
@@ -15,8 +15,7 @@ tr:first-child {
 
 td, th {
     text-align: center;
-    font-size: large;
-    font-size: medium;
+    font-size: 1.2vmin;
 }
 
 tr {

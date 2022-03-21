@@ -1,0 +1,70 @@
+body {
+    background-color: #001f3f;
+    color: white;
+    margin: 0;
+}
+
+.title {
+    text-align: left;
+    margin: 0 auto;
+}
+
+
+.clock {
+    font-size: 1vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+}
+
+.mainWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.row {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.analysisWrapper {
+    display: flex;
+}
+
+.bannerWrapper {
+    background-color: #003f3d;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 50px;
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+/* Coin Selection */
+.coinSelection {
+    width: 10vw;
+    text-align-last: center;
+    text-align: center; /* failsafe */
+    background: #007369;
+    border: #002723;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    height: 3vh;
+    margin-top: 10px;
+}
+
+/* Chart Button */
+.chartTypeWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-content: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+input[type=checkbox]{
+  size: 50px;
+  transform: scale(2);
+}

@@ -4,7 +4,7 @@
 }
 
 .selectedCoinSymbol {
-    font-size: 50px;
+    font-size: 2vw;
     transition: 0.7s;
     align-content: center;
     text-align: start;
@@ -13,18 +13,18 @@
 }
 
 .livePrice {
-    font-size: 50px;
+    font-size: 2vw;
     transition: 0.7s;
     align-content: center;
     text-align: start;
 }
 
 .fullDayData {
+    font-size: 0.8vw;
     text-align: start;
     transition: 0.7s;
     display: flex;
     justify-content: space-between;
-    font-size: 20px;
 }
 
 .livePrice:hover, .selectedCoinSymbol:hover {
