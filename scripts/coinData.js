@@ -11,7 +11,7 @@ chartViewCheckbox.checked = true;
 const cryptoTable = document.getElementById('cryptoTable');
 const CRYPTO_TABLE_SIZE = 4;
 var skip = 0;
-var limit = 10;
+var limit = 25;
 var finishedAddingCoins = false;
 
 // Update live price of selected coin through socket

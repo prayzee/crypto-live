@@ -9,12 +9,15 @@ body {
     margin: 0 auto;
 }
 
-
-.clock {
+.rightSideNavBar {
     font-size: 1vw;
     padding-left: 10px;
     padding-right: 10px;
+    margin-top: 10px;
     margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .mainWrapper {
@@ -35,11 +38,18 @@ body {
 .bannerWrapper {
     background-color: #003f3d;
     display: flex;
+    flex-direction: row;
     justify-content: start;
     align-items: center;
     gap: 50px;
     padding-left: 80px;
     padding-right: 80px;
+}
+
+.homePageNavContent {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
 }
 
 /* Coin Selection */
@@ -57,14 +67,14 @@ body {
 /* Chart Button */
 .chartTypeWrapper {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
     align-content: center;
     justify-content: center;
+    align-items: center;
+    gap: 10px;
     margin-top: 10px;
 }
 
 input[type=checkbox]{
-  size: 50px;
-  transform: scale(2);
+    size: 50px;
+    transform: scale(2);
 }

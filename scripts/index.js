@@ -9,6 +9,16 @@ var chatViewPortWidth = document.documentElement.clientWidth * CHAT_VIEWPORT_SIZ
 
 const CACHE_NAME = "crypto-live";
 
+const switchPageButton = document.getElementById('switchPageButton');
+
+// enum-like structure to represent possible pages
+const Page = {
+    home: 'home',
+    table: 'table'
+}
+
+let currentPage = Page.home;
+
 const initalisePage = function () {
     typeAnimatedText();
     
@@ -94,20 +104,6 @@ function initaliseCoinData() {
         .catch(err => { console.log(err) });
 }
 
-function setCookie(cname, cvalue) {
-    document.cookie = cname + '=' + cvalue + ';';
-}
-
-function getCookie(cname) {
-    const cookies = document.cookie.split('; ');
-    for(cookie of cookies) {
-        const [name, value] = cookie.split('=');
-        if(name == cname) {
-            return value;
-        }
-    }
-}
-
 function typeAnimatedText() {
     // main display currently set to none - turn typed text on
     animatedText.style.fontSize = "100px";
@@ -134,6 +130,34 @@ function typeAnimatedText() {
     type();
 }
 
+switchPageButton.addEventListener('click', () => {
+    const mainWrapper = document.getElementById('mainWrapper');
+    const tablePage = document.getElementById('tablePage');
+    const homePageNavContent = document.getElementById('homePageNavContent');
+    const tablePageNavContent = document.getElementById('tablePageNavContent');
+
+    if(currentPage == Page.home) {
+        mainWrapper.style.display = "none";
+        homePageNavContent.style.display = "none";
+
+        tablePage.style.display = "";
+        tablePageNavContent.style.display = "";
+        
+        currentPage = Page.table;
+        switchPageButton.value = "Home";
+
+    } else if (currentPage == Page.table) {
+        tablePageNavContent.style.display = "none";
+        tablePage.style.display = "none";
+        
+        mainWrapper.style.display = "";
+        homePageNavContent.style.display = "";
+
+        currentPage = Page.home;
+        switchPageButton.value = "All coins";
+    }
+});
+
 function updateTime() {
     const clock = document.getElementById('clock');
     clock.innerText = new Date().toLocaleTimeString();
@@ -148,16 +172,5 @@ function setSymbolPriceObjCoin(coin) {
     const div = document.getElementById('selectedCoinSymbol');
     div.innerText = coin;
 }
-
-window.addEventListener('resize', () => {
-    if(!initialChartLoad) {
-        let newChatWidth = Math.round(document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT);
-        
-        chat.style.width = `${newChatWidth}px`;
-        chatViewPortWidth = newChatWidth;
-    }
-    displayTradingViewChart();
-    initialChartLoad = false;
-});
 
 window.onload = initalisePage;

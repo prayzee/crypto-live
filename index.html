@@ -9,8 +9,10 @@
 
     <link rel="shortcut icon" type="image/jpg" href="static/favicon.jpg">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/table.css">
     <link rel="stylesheet" href="styles/chat.css">
@@ -23,24 +25,34 @@
     <div id="main" style="display: none">
 
         <div class="bannerWrapper">
-            <select class="coinSelection" id="coinSelection"> </select>
-            
-            <!-- Rounded switch -->
-            <div class="chartTypeWrapper">
-                <label class="chartViewButtonLabel"> Chart Mode </label>
-                <label class="switch" id="chartViewType">
-                    <input type="checkbox" id="chartTypeSelection">
-                    <span class="slider round"></span>
-                </label>
+
+            <div class="homePageNavContent" id="homePageNavContent">
+                <select class="coinSelection" id="coinSelection"> </select>
+                
+                <!-- Rounded switch -->
+                <div class="chartTypeWrapper" id="chartTypeWrapper">
+                    <label class="chartViewButtonLabel" id="chartViewButtonLabel"> Chart Mode </label>
+                    
+                    <label class="switch" id="chartViewType">
+                        <input type="checkbox" id="chartTypeSelection">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
             </div>
+
+            <div class="tablePageNavContent" id="tablePageNavContent" style="display: none"> </div>
             
-            <div class="clock" id="clock"> </div>
+            
+            <div class="rightSideNavBar" id="rightSideNavBar">
+                <input type="button" name="switchPage" class="button" id="switchPageButton" value="View All Coins">
+                <div class="clock" id="clock"> </div>
+            </div>
         </div>
         
-        <div class="mainWrapper">
+        <div class="mainWrapper" id="mainWrapper">
             <div id="tradingViewChart"> <!-- Chart will be added here --> </div>
             <form class="chatWrapper" id="chatForm">
-                <div class="symbolPriceObj" id=""symbolPriceObj">
+                <div class="symbolPriceObj" id="symbolPriceObj">
                     <div class="selectedCoinSymbol" id="selectedCoinSymbol"> </div>
                     <div class="livePrice" id="livePrice"> </div>
                 </div>
@@ -51,17 +63,21 @@
             </form>
         </div>
 
-        <table class="cryptoTable" id="cryptoTable">
-            <tr>
-                <th> Ticker </th>
-                <th> Price </th>
-                <th> 24hr Low </th>
-                <th> 24hr High </th>
-                <th> Change </th>
-            </tr>
-        </table>
-        <div class="loadingTable" id="loadingTable"> Loading... </div>
+        <div class="tablePage" id="tablePage" style="display: none"> 
+            <table class="cryptoTable" id="cryptoTable">
+                <tr>
+                    <th> Ticker </th>
+                    <th> Price </th>
+                    <th> 24hr Low </th>
+                    <th> 24hr High </th>
+                    <th> Change </th>
+                </tr>
+            </table>
+            <div class="loadingTable" id="loadingTable"> Loading... </div>
+        </div>
+
         <script src="scripts/index.js"> </script>
+        <script src="scripts/cookies.js"> </script>
         <script src="scripts/coinData.js"> </script>
         <script src="scripts/chart.js"> </script>
         <script src="scripts/socket.js"> </script>

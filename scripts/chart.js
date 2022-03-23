@@ -1,5 +1,16 @@
 const CHART_PCT_OF_REMAIN_VIEWPORT = 0.9;
 
+window.addEventListener('resize', () => {
+    if(!initialChartLoad) {
+        let newChatWidth = Math.round(document.documentElement.clientWidth * CHAT_VIEWPORT_SIZE_PCT);
+        
+        chat.style.width = `${newChatWidth}px`;
+        chatViewPortWidth = newChatWidth;
+    }
+    displayTradingViewChart();
+    initialChartLoad = false;
+});
+
 // The TradingView widget is exposed by the TradingView CDN (src in HTML file)
 function displayTradingViewChart() {
     const tradingViewChart = document.getElementById('tradingViewChart');
