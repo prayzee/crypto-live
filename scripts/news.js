@@ -1,4 +1,4 @@
-const MAX_NEWS_ITEMS = 5;
+const MAX_NEWS_ITEMS = 6;
 
 async function displayNews() {
     const response = await fetch(API_URL + 'news/posts/');
@@ -9,8 +9,6 @@ async function displayNews() {
     let newsTableHeader = document.createElement('th');
     newsTableHeader.innerText = 'Latest News';
     newsTable.appendChild(newsTableHeader);
-
-    console.log(data);
 
     let newsItems = 0;
     for(let news of data.results) {
