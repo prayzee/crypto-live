@@ -1,6 +1,6 @@
 .chat {
     width: 25vw;
-    height: 40vh;
+    height: 27vh;
     overflow-y: scroll;
     scrollbar-width: none; /* firefox */
     word-wrap: break-word;
