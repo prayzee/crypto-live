@@ -12,10 +12,10 @@
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-    <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/table.css">
     <link rel="stylesheet" href="styles/chat.css">
+    <link rel="stylesheet" href="styles/news.css">
     <link rel="stylesheet" href="styles/selectedCoinData.css">
 </head>
 
@@ -25,7 +25,6 @@
     <div id="main" style="display: none">
 
         <div class="bannerWrapper">
-
             <div class="homePageNavContent" id="homePageNavContent">
                 <select class="coinSelection" id="coinSelection"> </select>
                 
@@ -42,25 +41,29 @@
 
             <div class="tablePageNavContent" id="tablePageNavContent" style="display: none"> </div>
             
-            
             <div class="rightSideNavBar" id="rightSideNavBar">
-                <input type="button" name="switchPage" class="button" id="switchPageButton" value="View All Coins">
+                <input type="button" name="switchPage" class="switchPageButton" id="switchPageButton" value="View All Coins">
                 <div class="clock" id="clock"> </div>
             </div>
         </div>
         
         <div class="mainWrapper" id="mainWrapper">
+
             <div id="tradingViewChart"> <!-- Chart will be added here --> </div>
+
             <form class="chatWrapper" id="chatForm">
                 <div class="symbolPriceObj" id="symbolPriceObj">
                     <div class="selectedCoinSymbol" id="selectedCoinSymbol"> </div>
                     <div class="livePrice" id="livePrice"> </div>
                 </div>
                 <div class="fullDayData" id="fullDayData"> </div>
+
+                <table class="newsTable" id="newsTable"> </table>
+
                 <div class="chat" id="chat"> </div>
                 <input type="text" class="messageToSend" id="messageToSend">
-                <!-- <button type="submit" id="sendMessageButton"> Send message </button> -->
             </form>
+            
         </div>
 
         <div class="tablePage" id="tablePage" style="display: none"> 
@@ -83,6 +86,7 @@
         <script src="scripts/socket.js"> </script>
         <script src="scripts/table.js"> </script>
         <script src="scripts/messaging.js"> </script>
+        <script src="scripts/news.js"> </script>
     </div>
 </body>
 

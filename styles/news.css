@@ -1,0 +1,31 @@
+.newsTable {
+    width: 25vw;
+}
+
+.newsTable {
+    border-collapse: collapse;
+}
+
+.newsTable th {
+    font-size: 2vmin;
+    text-align: left;
+}
+
+.newsTable td {
+    border:none;
+    outline: none;
+}
+
+.newsTable td, th {
+    text-align: left;
+    font-size: 1.3vmin;
+}
+
+.newsTable tr {
+    transition:0.25s;
+}
+
+.newsTable tr:hover {
+    transform: scale(1.01, 1.05);
+    transform-origin: center;
+}

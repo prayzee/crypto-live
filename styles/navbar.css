@@ -78,3 +78,7 @@ input[type=checkbox]{
     size: 50px;
     transform: scale(2);
 }
+
+#switchPageButton {
+    color: white;
+}

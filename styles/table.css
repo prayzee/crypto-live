@@ -1,4 +1,4 @@
-table {
+.cryptoTable {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -8,23 +8,23 @@ table {
     border: none;
 }
 
-tr:first-child {
+.cryptoTable tr:first-child {
     position: sticky;
     top: 0;
     background-color: #000058;
 }
 
-td, th {
+.cryptoTable td, th {
     text-align: center;
     font-size: 1.2vmin;
 }
 
-tr {
+.cryptoTable tr {
     transition:0.25s;
     box-shadow: inset 0 0 0 2px;
 }
 
-tr:hover {
+.cryptoTable tr:hover {
     transform: scale(1.1, 1.05);
     transform-origin: center;
     background-color:#3C3CA8;

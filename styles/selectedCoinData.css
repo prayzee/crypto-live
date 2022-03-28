@@ -20,10 +20,11 @@
 }
 
 .fullDayData {
-    font-size: 0.8vw;
+    font-size: 1.3vmin;
     text-align: start;
     transition: 0.7s;
     display: flex;
+    gap: 10px;
     justify-content: space-between;
 }
 
