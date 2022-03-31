@@ -106,7 +106,7 @@ function initaliseCoinData() {
 
 function typeAnimatedText() {
     // main display currently set to none - turn typed text on
-    animatedText.style.fontSize = "100px";
+    animatedText.style.fontSize = "5vw";
     animatedText.style.alignItems = "center";
     animatedText.style.textAlign = "center";
     animatedText.style.justifyContent = "center";
