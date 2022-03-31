@@ -14,7 +14,8 @@
     background-color: #000058;
 }
 
-.cryptoTable td, th {
+.cryptoTable td,
+.cryptoTable th {
     text-align: center;
     font-size: 1.2vmin;
 }
