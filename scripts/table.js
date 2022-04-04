@@ -92,6 +92,7 @@ function displayPaginatedCoinData() {
                     initaliseCoinData();
                     displayTradingViewChart();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setSymbolPriceObjCoin(coinForm.value);
 
                     switchPage();
                 };

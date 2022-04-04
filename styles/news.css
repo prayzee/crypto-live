@@ -3,28 +3,32 @@
     border: none;
     outline: none;
     margin-right: 10px;
-}
-
-.newsTable {
     border-collapse: collapse;
-}
-
-.newsTable th {
-    font-size: 2vmin;
-    text-align: left;
 }
 
 .newsTable td,
 .newsTable th {
     text-align: left;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+.newsTable td {
     font-size: 1.3vmin;
 }
 
-.newsTable tr {
+.newsTable th {
+    font-size: 2vw; /* same size as coin symbol */
+    font-weight: normal;
+}
+
+.newsTable tr,
+.newsTable th {
     transition:0.25s;
 }
 
-.newsTable tr:hover {
+.newsTable tr:hover, th:hover {
     transform: scale(1.01, 1.05);
     transform-origin: center;
 }

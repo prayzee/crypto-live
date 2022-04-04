@@ -27,8 +27,6 @@ function displayTradingViewChart() {
 
     tradingViewChart.style.paddingTop = '15px';
 
-    // let chartWidth = Math.round((document.documentElement.clientWidth - chatViewPortWidth) * CHART_PCT_OF_REMAIN_VIEWPORT);
-    // let chartHeight = Math.round(document.documentElement.clientHeight * CHART_PCT_OF_REMAIN_VIEWPORT);
     let chartWidth = Math.round(Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 100 * 70);
     let chartHeight = Math.round(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100 * 85);
     
