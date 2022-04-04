@@ -90,8 +90,10 @@ function displayPaginatedCoinData() {
                     coinForm.value = selectedCoin;
                     setCookie('selectedCoin', coinForm.value);
                     initaliseCoinData();
-                    displayTradingViewChart();1``
+                    displayTradingViewChart();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    switchPage();
                 };
 
                 tr.appendChild(ticker);

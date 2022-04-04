@@ -106,7 +106,7 @@ function initaliseCoinData() {
 
 function typeAnimatedText() {
     // main display currently set to none - turn typed text on
-    animatedText.style.fontSize = "100px";
+    animatedText.style.fontSize = "5vw";
     animatedText.style.alignItems = "center";
     animatedText.style.textAlign = "center";
     animatedText.style.justifyContent = "center";
@@ -130,7 +130,9 @@ function typeAnimatedText() {
     type();
 }
 
-switchPageButton.addEventListener('click', () => {
+switchPageButton.addEventListener('click', () => switchPage());
+
+function switchPage() {
     const mainWrapper = document.getElementById('mainWrapper');
     const tablePage = document.getElementById('tablePage');
     const homePageNavContent = document.getElementById('homePageNavContent');
@@ -156,7 +158,7 @@ switchPageButton.addEventListener('click', () => {
         currentPage = Page.home;
         switchPageButton.value = "All coins";
     }
-});
+}
 
 function updateTime() {
     const clock = document.getElementById('clock');
